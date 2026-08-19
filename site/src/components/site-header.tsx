@@ -7,9 +7,10 @@ const LINKS = [
   { href: "#contato", label: "Contato" },
 ];
 
-// Trocar quando o Telas tiver domínio próprio (ex: telas.iluminnus.com.br).
-const TELAS_LOGIN_URL =
-  process.env.NEXT_PUBLIC_TELAS_URL ?? "https://telas-blond.vercel.app/login";
+// Site institucional é a "mãe" (Iluminnus) -- o login daqui é o do sistema
+// mãe (gestão dos donos/apps), não o de um app filho como o Telas.
+const ADMIN_LOGIN_URL =
+  process.env.NEXT_PUBLIC_ADMIN_URL ?? "https://admin.iluminnus.com.br/login";
 
 export function SiteHeader() {
   return (
@@ -40,7 +41,7 @@ export function SiteHeader() {
             ))}
           </nav>
           <a
-            href={TELAS_LOGIN_URL}
+            href={ADMIN_LOGIN_URL}
             className="rounded-full border border-gold/40 px-4 py-1.5 text-sm font-medium text-gold-bright transition-colors hover:bg-gold/10"
           >
             Entrar
