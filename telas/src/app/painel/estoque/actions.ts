@@ -22,16 +22,6 @@ const itemUpdateSchema = itemSchema.omit({ quantidade: true });
 
 export type ItemEstoqueState = { error?: string };
 
-function parseItemForm(formData: FormData) {
-  const raw = Object.fromEntries(formData.entries());
-  if (raw.valorUnitario === "") delete raw.valorUnitario;
-  const parsed = itemSchema.parse(raw);
-  return {
-    ...parsed,
-    valorUnitario: parsed.valorUnitario ?? null,
-  };
-}
-
 function parseItemUpdateForm(formData: FormData) {
   const raw = Object.fromEntries(formData.entries());
   if (raw.valorUnitario === "") delete raw.valorUnitario;
@@ -42,44 +32,103 @@ function parseItemUpdateForm(formData: FormData) {
   };
 }
 
-export async function createItemEstoque(
+const adicionarEstoqueSchema = z.object({
+  itemId: z.string().optional(),
+  nome: z.string().optional(),
+  categoria: z.string().optional(),
+  valorUnitario: z.coerce.number().min(0).optional(),
+  fornecedor: z.string().optional(),
+  status: z.enum(["DISPONIVEL", "EM_USO", "MANUTENCAO", "BAIXADO"]).optional(),
+  quantidade: z.coerce.number().int().positive("Informe uma quantidade válida."),
+  data: z.coerce.date({ error: "Informe a data." }),
+  motivo: z.string().optional(),
+  observacoes: z.string().optional(),
+});
+
+// Tela unica de "adicionar ao estoque": se o item ja existe (selecionado no
+// dropdown), so registra uma entrada nele; se for "novo item", cria do zero.
+// Evita item duplicado quando alguem digita o nome de um jeito ligeiramente
+// diferente do que ja esta cadastrado.
+export async function adicionarEstoque(
   _prevState: ItemEstoqueState,
   formData: FormData
 ): Promise<ItemEstoqueState> {
   const session = await getSessaoComEmpresa();
 
+  const raw = Object.fromEntries(formData.entries());
+  if (raw.valorUnitario === "") delete raw.valorUnitario;
   let data;
   try {
-    data = parseItemForm(formData);
+    data = adicionarEstoqueSchema.parse(raw);
   } catch {
     return { error: "Verifique os campos obrigatórios." };
   }
 
-  const item = await prisma.itemEstoque.create({
-    data: {
-      ...data,
-      empresaId: session.empresaId,
-      movimentos:
-        data.quantidade > 0
-          ? {
-              create: [
-                {
-                  tipo: "ENTRADA",
-                  quantidade: data.quantidade,
-                  data: data.dataEntrada,
-                  motivo: "Cadastro inicial do item",
-                },
-              ],
-            }
-          : undefined,
-    },
-  });
-  await registrarLog({
-    acao: "Criou item de estoque",
-    entidade: "ItemEstoque",
-    entidadeId: item.id,
-    descricao: `Cadastrou "${item.nome}" com ${item.quantidade} unidade(s) em estoque.`,
-  });
+  if (data.itemId) {
+    const item = await prisma.itemEstoque.findUnique({
+      where: { id: data.itemId, empresaId: session.empresaId },
+    });
+    if (!item) return { error: "Item não encontrado." };
+
+    await prisma.itemEstoque.update({
+      where: { id: item.id },
+      data: {
+        quantidade: { increment: data.quantidade },
+        movimentos: {
+          create: [
+            {
+              tipo: "ENTRADA",
+              quantidade: data.quantidade,
+              data: data.data,
+              motivo: data.motivo || "Reposição de estoque",
+              observacoes: data.observacoes,
+            },
+          ],
+        },
+      },
+    });
+
+    await registrarLog({
+      acao: "Registrou entrada de estoque",
+      entidade: "ItemEstoque",
+      entidadeId: item.id,
+      descricao: `Entrada de ${data.quantidade} unidade(s) de "${item.nome}".`,
+    });
+  } else {
+    if (!data.nome) return { error: "Informe o nome do item." };
+
+    const item = await prisma.itemEstoque.create({
+      data: {
+        empresaId: session.empresaId,
+        nome: data.nome,
+        categoria: data.categoria,
+        quantidade: data.quantidade,
+        valorUnitario: data.valorUnitario ?? null,
+        fornecedor: data.fornecedor,
+        dataEntrada: data.data,
+        status: data.status ?? "DISPONIVEL",
+        observacoes: data.observacoes,
+        movimentos: {
+          create: [
+            {
+              tipo: "ENTRADA",
+              quantidade: data.quantidade,
+              data: data.data,
+              motivo: "Cadastro inicial do item",
+            },
+          ],
+        },
+      },
+    });
+
+    await registrarLog({
+      acao: "Criou item de estoque",
+      entidade: "ItemEstoque",
+      entidadeId: item.id,
+      descricao: `Cadastrou "${item.nome}" com ${item.quantidade} unidade(s) em estoque.`,
+    });
+  }
+
   revalidatePath("/painel/estoque");
   redirect("/painel/estoque");
 }

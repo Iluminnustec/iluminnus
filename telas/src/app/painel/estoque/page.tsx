@@ -41,7 +41,7 @@ export default async function EstoquePage() {
           href="/painel/estoque/novo"
           className="rounded-md bg-telas-navy px-4 py-2 text-sm font-medium text-white hover:bg-telas-navy-light"
         >
-          Novo item
+          Adicionar ao estoque
         </Link>
       </div>
 
