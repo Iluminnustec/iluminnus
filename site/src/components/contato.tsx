@@ -13,15 +13,12 @@ export function Contato() {
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
-            href="mailto:contato@iluminnus.com.br"
+            href="mailto:iluminnustec@gmail.com"
             className="rounded-full bg-gradient-to-r from-gold to-gold-bright px-7 py-3 text-sm font-semibold text-[#1a1305] transition-transform hover:scale-105"
           >
-            contato@iluminnus.com.br
+            iluminnustec@gmail.com
           </a>
         </div>
-        <p className="mt-3 text-xs text-muted">
-          (e-mail provisório — atualizar com o contato oficial)
-        </p>
       </div>
     </section>
   );
