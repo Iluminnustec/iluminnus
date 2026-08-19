@@ -1,0 +1,543 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum StatusTela {
+  ATIVA
+  INATIVA
+  MANUTENCAO
+}
+
+enum TipoTela {
+  TV_ELEVADOR
+  TOTEM_HALL
+  TELA_HORIZONTAL
+  OUTRO
+}
+
+enum StatusCobranca {
+  PENDENTE
+  PAGO
+  ATRASADO
+  CANCELADO
+}
+
+enum CategoriaDespesa {
+  EQUIPAMENTO
+  ESTOQUE
+  INSTALACAO
+  MANUTENCAO
+  MARKETING
+  ADMINISTRATIVO
+  COMISSAO
+  OUTROS
+}
+
+enum FormaPagamento {
+  A_VISTA
+  CARTAO_CREDITO
+  PIX
+  BOLETO
+  TRANSFERENCIA
+}
+
+enum StatusParcela {
+  PENDENTE
+  PAGO
+  ATRASADO
+}
+
+enum StatusEstoque {
+  DISPONIVEL
+  EM_USO
+  MANUTENCAO
+  BAIXADO
+}
+
+enum TipoMovimentoEstoque {
+  ENTRADA
+  SAIDA
+}
+
+enum Cargo {
+  SUPER_ADMIN
+  ADMIN
+  SUPERVISOR
+  VENDAS
+  SOCIO
+}
+
+enum TipoMidia {
+  IMAGEM
+  VIDEO
+}
+
+enum StatusProposta {
+  PENDENTE
+  APROVADA
+  RECUSADA
+}
+
+enum StatusAssinatura {
+  ATIVA
+  ATRASADA
+  SUSPENSA
+  CANCELADA
+}
+
+// O "dono": uma empresa que assina o Telas. Toda entidade de negocio abaixo
+// pertence a uma Empresa (multi-tenant). Usuario.empresaId e
+// LogAtividade.empresaId sao os unicos opcionais -- null neles significa
+// "staff da propria Iluminnus" (ver Cargo.SUPER_ADMIN), nao um dono.
+model Empresa {
+  id        String   @id @default(cuid())
+  nome      String
+  slug      String   @unique
+  dominio   String?  @unique
+  cidade    String?
+  estado    String?
+  ativo     Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assinatura   Assinatura?
+  usuarios     Usuario[]
+  logsAtividade LogAtividade[]
+  clientes     Cliente[]
+  propostas    Proposta[]
+  comissoes    Comissao[]
+  predios      Predio[]
+  telas        Tela[]
+  dispositivos Dispositivo[]
+  playlists    Playlist[]
+  midias       Midia[]
+  cobrancas    Cobranca[]
+  despesas     Despesa[]
+  vendas       Venda[]
+  fechamentosComissao FechamentoComissao[]
+  itensEstoque ItemEstoque[]
+}
+
+model Assinatura {
+  id                String           @id @default(cuid())
+  plano             String
+  valorMensal       Float
+  diaVencimento     Int
+  status            StatusAssinatura @default(ATIVA)
+  dataInicio        DateTime         @default(now())
+  proximoVencimento DateTime
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  empresaId         String     @unique
+  empresa           Empresa    @relation(fields: [empresaId], references: [id])
+
+  pagamentos        PagamentoAssinatura[]
+}
+
+model PagamentoAssinatura {
+  id            String     @id @default(cuid())
+  valor         Float
+  referencia    DateTime
+  dataPagamento DateTime   @default(now())
+  registradoPor String?
+  observacoes   String?
+  createdAt     DateTime   @default(now())
+
+  assinaturaId  String
+  assinatura    Assinatura @relation(fields: [assinaturaId], references: [id], onDelete: Cascade)
+}
+
+model Usuario {
+  id           String   @id @default(cuid())
+  nome         String
+  email        String   @unique
+  senhaHash    String
+  cargo        Cargo    @default(SUPERVISOR)
+  ativo        Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // null = staff da propria Iluminnus (cargo SUPER_ADMIN), nao pertence a
+  // nenhum dono.
+  empresaId    String?
+  empresa      Empresa? @relation(fields: [empresaId], references: [id])
+
+  despesasAdiantadas Despesa[]
+  clientesVendidos   Cliente[]
+  comissoes          Comissao[]
+  vendas             Venda[]
+  fechamentosComissao FechamentoComissao[]
+
+  @@index([empresaId])
+}
+
+model LogAtividade {
+  id           String   @id @default(cuid())
+  usuarioNome  String
+  usuarioEmail String
+  acao         String
+  entidade     String
+  entidadeId   String?
+  descricao    String
+  createdAt    DateTime @default(now())
+
+  // null = acao de nivel plataforma (feita por um SUPER_ADMIN da Iluminnus).
+  empresaId    String?
+  empresa      Empresa? @relation(fields: [empresaId], references: [id])
+
+  @@index([empresaId])
+}
+
+model Cliente {
+  id           String   @id @default(cuid())
+  nome         String
+  razaoSocial  String?
+  cnpjCpf      String?
+  email        String?  @unique
+  senhaHash    String?
+  telefone     String?
+  endereco     String?
+  bairro       String?
+  cidade       String?
+  estado       String?
+  cep          String?
+  planoTelas   Int?
+  observacoes  String?
+  ativo        Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  empresaId    String
+  empresa      Empresa  @relation(fields: [empresaId], references: [id])
+
+  cobrancas    Cobranca[]
+  midias       Midia[]
+
+  vendedorId   String?
+  vendedor     Usuario?  @relation(fields: [vendedorId], references: [id])
+  comissoes    Comissao[]
+  propostas    Proposta[]
+  vendas       Venda[]
+
+  @@index([empresaId])
+}
+
+model Proposta {
+  id          String         @id @default(cuid())
+  valorTotal  Float
+  status      StatusProposta @default(PENDENTE)
+  observacoes String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  empresaId   String
+  empresa     Empresa        @relation(fields: [empresaId], references: [id])
+
+  clienteId   String
+  cliente     Cliente        @relation(fields: [clienteId], references: [id])
+
+  itens       PropostaItem[]
+
+  @@index([empresaId])
+}
+
+model PropostaItem {
+  id             String   @id @default(cuid())
+  precoNoMomento Float
+
+  propostaId     String
+  proposta       Proposta @relation(fields: [propostaId], references: [id], onDelete: Cascade)
+
+  telaId         String
+  tela           Tela     @relation(fields: [telaId], references: [id])
+}
+
+model Comissao {
+  id            String   @id @default(cuid())
+  valorVenda    Float
+  percentual    Float
+  valorComissao Float
+  dataVenda     DateTime
+  createdAt     DateTime @default(now())
+
+  empresaId     String
+  empresa       Empresa  @relation(fields: [empresaId], references: [id])
+
+  clienteId     String
+  cliente       Cliente  @relation(fields: [clienteId], references: [id])
+
+  vendedorId    String
+  vendedor      Usuario  @relation(fields: [vendedorId], references: [id])
+
+  despesaId     String   @unique
+  despesa       Despesa  @relation(fields: [despesaId], references: [id], onDelete: Cascade)
+
+  @@index([empresaId])
+}
+
+model Predio {
+  id           String   @id @default(cuid())
+  nome         String
+  endereco     String?
+  bairro       String?
+  cidade       String?
+  estado       String?
+  cep          String?
+  latitude     Float?
+  longitude    Float?
+  sindicoNome  String?
+  sindicoContato String?
+  observacoes  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  empresaId    String
+  empresa      Empresa  @relation(fields: [empresaId], references: [id])
+
+  telas        Tela[]
+
+  @@index([empresaId])
+}
+
+model Tela {
+  id             String     @id @default(cuid())
+  nome           String
+  tipo           TipoTela   @default(TV_ELEVADOR)
+  especificacoes String?
+  status         StatusTela @default(ATIVA)
+  rotacao        Int        @default(0)
+  observacoes    String?
+  precoBase      Float      @default(110)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  empresaId      String
+  empresa        Empresa    @relation(fields: [empresaId], references: [id])
+
+  predioId       String
+  predio         Predio     @relation(fields: [predioId], references: [id])
+
+  playlistId     String?
+  playlist       Playlist?  @relation(fields: [playlistId], references: [id])
+
+  dispositivos   Dispositivo[]
+  midias         Midia[]    @relation("MidiaTelas")
+  propostaItens  PropostaItem[]
+
+  @@index([empresaId])
+}
+
+model Dispositivo {
+  id             String    @id @default(cuid())
+  deviceId       String    @unique
+  apelido        String?
+  ultimoContato  DateTime  @default(now())
+  appVersao      String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Preenchido quando o dispositivo e vinculado a uma Tela (copiado da
+  // empresa da tela). Um deviceId recem pareado, ainda sem telaId, fica
+  // sem empresa ate alguem vincular.
+  empresaId      String?
+  empresa        Empresa?  @relation(fields: [empresaId], references: [id])
+
+  telaId         String?
+  tela           Tela?     @relation(fields: [telaId], references: [id])
+
+  @@index([empresaId])
+}
+
+model Playlist {
+  id        String   @id @default(cuid())
+  nome      String
+  isPadrao  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  empresaId String
+  empresa   Empresa  @relation(fields: [empresaId], references: [id])
+
+  itens     Midia[]
+  telas     Tela[]
+
+  @@index([empresaId])
+}
+
+model Midia {
+  id               String    @id @default(cuid())
+  nome             String
+  tipo             TipoMidia
+  url              String
+  caminhoStorage   String
+  duracaoSegundos  Int       @default(10)
+  ordem            Int       @default(0)
+  ativo            Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  empresaId        String
+  empresa          Empresa   @relation(fields: [empresaId], references: [id])
+
+  playlistId       String?
+  playlist         Playlist? @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+
+  clienteId        String?
+  cliente          Cliente?  @relation(fields: [clienteId], references: [id])
+
+  // Telas especificas onde essa midia deve aparecer. Vazio = institucional,
+  // toca em todas as telas (comportamento padrao pra quem nao escolher nenhuma).
+  telas            Tela[]    @relation("MidiaTelas")
+
+  @@index([empresaId])
+}
+
+model Cobranca {
+  id            String         @id @default(cuid())
+  descricao     String
+  valor         Float
+  vencimento    DateTime
+  status        StatusCobranca @default(PENDENTE)
+  dataPagamento DateTime?
+  observacoes   String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  empresaId     String
+  empresa       Empresa        @relation(fields: [empresaId], references: [id])
+
+  clienteId     String
+  cliente       Cliente        @relation(fields: [clienteId], references: [id])
+
+  @@index([empresaId])
+}
+
+model Despesa {
+  id             String           @id @default(cuid())
+  descricao      String
+  categoria      CategoriaDespesa @default(OUTROS)
+  fornecedor     String?
+  valorTotal     Float
+  dataCompra     DateTime
+  formaPagamento FormaPagamento   @default(A_VISTA)
+  numeroParcelas Int              @default(1)
+  faturarMesSeguinte Boolean      @default(false)
+  observacoes    String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  empresaId      String
+  empresa        Empresa          @relation(fields: [empresaId], references: [id])
+
+  parcelas       DespesaParcela[]
+
+  pagoPorSocioId String?
+  pagoPorSocio   Usuario?         @relation(fields: [pagoPorSocioId], references: [id])
+  reembolsado    Boolean          @default(false)
+  dataReembolso  DateTime?
+
+  comissao       Comissao?
+  fechamentoComissao FechamentoComissao?
+
+  @@index([empresaId])
+}
+
+// Registro de uma venda nova (input do calculo de comissao mensal por faixa).
+// Nao gera despesa sozinha -- entra na soma do mes do vendedor, que so vira
+// despesa quando o mes e fechado (ver FechamentoComissao).
+model Venda {
+  id            String   @id @default(cuid())
+  valorVenda    Float
+  dataPagamento DateTime
+  observacoes   String?
+  createdAt     DateTime @default(now())
+
+  empresaId     String
+  empresa       Empresa  @relation(fields: [empresaId], references: [id])
+
+  clienteId     String
+  cliente       Cliente  @relation(fields: [clienteId], references: [id])
+
+  vendedorId    String
+  vendedor      Usuario  @relation(fields: [vendedorId], references: [id])
+
+  @@index([empresaId])
+}
+
+// Fechamento mensal da comissao de um vendedor: soma das Vendas pagas no mes,
+// faixa aplicada sobre o total (nao marginal), 1 despesa unica gerada.
+model FechamentoComissao {
+  id            String   @id @default(cuid())
+  mesReferencia DateTime
+  totalVendido  Float
+  percentual    Float
+  valorComissao Float
+  createdAt     DateTime @default(now())
+
+  empresaId     String
+  empresa       Empresa  @relation(fields: [empresaId], references: [id])
+
+  vendedorId    String
+  vendedor      Usuario  @relation(fields: [vendedorId], references: [id])
+
+  despesaId     String   @unique
+  despesa       Despesa  @relation(fields: [despesaId], references: [id], onDelete: Cascade)
+
+  @@unique([vendedorId, mesReferencia])
+  @@index([empresaId])
+}
+
+model DespesaParcela {
+  id            String        @id @default(cuid())
+  numero        Int
+  valor         Float
+  vencimento    DateTime
+  status        StatusParcela @default(PENDENTE)
+  dataPagamento DateTime?
+
+  despesaId     String
+  despesa       Despesa       @relation(fields: [despesaId], references: [id], onDelete: Cascade)
+}
+
+model ItemEstoque {
+  id            String        @id @default(cuid())
+  nome          String
+  categoria     String?
+  quantidade    Int           @default(1)
+  valorUnitario Float?
+  fornecedor    String?
+  dataEntrada   DateTime      @default(now())
+  status        StatusEstoque @default(DISPONIVEL)
+  observacoes   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  empresaId     String
+  empresa       Empresa       @relation(fields: [empresaId], references: [id])
+
+  movimentos    MovimentoEstoque[]
+
+  @@index([empresaId])
+}
+
+model MovimentoEstoque {
+  id          String               @id @default(cuid())
+  tipo        TipoMovimentoEstoque
+  quantidade  Int
+  data        DateTime             @default(now())
+  motivo      String
+  observacoes String?
+  createdAt   DateTime             @default(now())
+
+  itemEstoqueId String
+  itemEstoque   ItemEstoque @relation(fields: [itemEstoqueId], references: [id], onDelete: Cascade)
+}

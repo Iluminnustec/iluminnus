@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+:root {
+  --background: #080b14;
+  --surface: #0e1424;
+  --surface-2: #131a2e;
+  --border: rgba(216, 178, 110, 0.16);
+  --foreground: #f4f6fb;
+  --muted: #94a0c2;
+  --gold: #d4af6a;
+  --gold-bright: #f0cf8f;
+  --blue: #3b82f6;
+  --blue-bright: #60a5fa;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-blue: var(--blue);
+  --color-blue-bright: var(--blue-bright);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold) 55%, #a97f36);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bg-radial-glow {
+  background: radial-gradient(60% 50% at 50% 0%, rgba(59, 130, 246, 0.16), transparent 70%);
+}
