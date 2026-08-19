@@ -7,10 +7,10 @@ const LINKS = [
   { href: "#contato", label: "Contato" },
 ];
 
-// Site institucional é a "mãe" (Iluminnus) -- o login daqui é o do sistema
-// mãe (gestão dos donos/apps), não o de um app filho como o Telas.
-const ADMIN_LOGIN_URL =
-  process.env.NEXT_PUBLIC_ADMIN_URL ?? "https://admin.iluminnus.com.br/login";
+// Login único: admin (Iluminnus), painel (donos) e cliente compartilham o
+// mesmo /login do Telas -- não existe mais um domínio de admin separado.
+const TELAS_URL = process.env.NEXT_PUBLIC_TELAS_URL ?? "https://telas-blond.vercel.app";
+const LOGIN_URL = `${TELAS_URL}/login`;
 
 export function SiteHeader() {
   return (
@@ -41,7 +41,7 @@ export function SiteHeader() {
             ))}
           </nav>
           <a
-            href={ADMIN_LOGIN_URL}
+            href={LOGIN_URL}
             className="rounded-full border border-gold/40 px-4 py-1.5 text-sm font-medium text-gold-bright transition-colors hover:bg-gold/10"
           >
             Entrar
