@@ -14,7 +14,7 @@ function gerarLicenca() {
 const SUPER_ADMINS = [
   {
     nome: "Administrador Iluminnus",
-    email: "iluminnustec@gmail.com",
+    email: "adm@iluminnus.com.br",
     // Senha só usada se este seed criar a conta do zero (ex: banco novo).
     // A senha real em uso hoje foi trocada direto no banco, não é esta.
     senha: "trocar-no-primeiro-acesso-2026",
