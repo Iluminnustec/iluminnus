@@ -70,44 +70,9 @@ export async function cadastroClienteAction(
   redirect("/cliente/plano");
 }
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  senha: z.string().min(1),
-});
-
-export async function loginClienteAction(
-  _prevState: ClienteAuthState,
-  formData: FormData
-): Promise<ClienteAuthState> {
-  let data;
-  try {
-    data = loginSchema.parse(Object.fromEntries(formData.entries()));
-  } catch {
-    return { error: "Informe e-mail e senha." };
-  }
-
-  const email = data.email.trim().toLowerCase();
-  const cliente = await prisma.cliente.findUnique({ where: { email } });
-  if (!cliente || !cliente.senhaHash) {
-    return { error: "E-mail ou senha inválidos." };
-  }
-
-  if (!cliente.ativo) {
-    return { error: "Esta conta está inativa. Fale com a equipe." };
-  }
-
-  const senhaValida = await bcrypt.compare(data.senha, cliente.senhaHash);
-  if (!senhaValida) {
-    return { error: "E-mail ou senha inválidos." };
-  }
-
-  await createClienteSession({ clienteId: cliente.id, email, nome: cliente.nome, empresaId: cliente.empresaId });
-  redirect("/cliente/plano");
-}
-
 export async function logoutClienteAction() {
   await destroyClienteSession();
-  redirect("/cliente/login");
+  redirect("/login");
 }
 
 export type PropostaState = { error?: string; sucesso?: boolean };

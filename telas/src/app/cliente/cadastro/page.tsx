@@ -107,7 +107,7 @@ export default function CadastroClientePage() {
 
         <p className="mt-4 text-center text-sm text-slate-500">
           Já tem conta?{" "}
-          <Link href="/cliente/login" className="font-medium text-telas-blue hover:underline">
+          <Link href="/login" className="font-medium text-telas-blue hover:underline">
             Entrar
           </Link>
         </p>

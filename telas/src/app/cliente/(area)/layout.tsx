@@ -12,7 +12,7 @@ export default async function AreaClienteLayout({
   children: React.ReactNode;
 }) {
   const session = await getClienteSession();
-  if (!session) redirect("/cliente/login");
+  if (!session) redirect("/login");
 
   const empresa = await prisma.empresa.findUnique({
     where: { id: session.empresaId },

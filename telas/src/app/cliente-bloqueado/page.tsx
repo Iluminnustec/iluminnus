@@ -4,7 +4,7 @@ import { logoutClienteAction } from "@/app/cliente/actions";
 
 export default async function ClienteBloqueadoPage() {
   const session = await getClienteSession();
-  if (!session) redirect("/cliente/login");
+  if (!session) redirect("/login");
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6">

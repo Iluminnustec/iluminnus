@@ -45,10 +45,10 @@ export function SiteHeader() {
             Fale conosco
           </a>
           <Link
-            href="/cliente/login"
+            href="/login"
             className="rounded-md bg-telas-navy px-4 py-2 text-sm font-medium text-white hover:bg-telas-navy-light"
           >
-            Área do cliente
+            Entrar
           </Link>
         </div>
       </div>
