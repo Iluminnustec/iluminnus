@@ -142,6 +142,12 @@ model Indicador {
   contato          String?
   chavePix         String?
   percentualPadrao Float    @default(20)
+  // Código curto usado no link público de indicação (/assinar?ref=codigo).
+  // Quem se cadastra por esse link já nasce vinculado a este indicador,
+  // sem precisar de nenhuma ação manual depois -- essencial pro fluxo de
+  // venda presencial (vendedor preenche o cadastro do cliente na hora,
+  // pelo próprio link dela) e pro cadastro direto pelo site.
+  codigo           String   @unique
   ativo            Boolean  @default(true)
   createdAt        DateTime @default(now())
 

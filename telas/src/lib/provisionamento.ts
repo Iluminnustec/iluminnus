@@ -30,6 +30,19 @@ export function proximoVencimentoApartirDe(base: Date, diaVencimento: number) {
   return new Date(base.getFullYear(), base.getMonth() + 1, diaVencimento);
 }
 
+// Código curto pro link público de indicação (/assinar?ref=codigo) --
+// maiúsculo, sem caracteres ambíguos (0/O, 1/I), fácil de ler/digitar.
+const ALFABETO_CODIGO = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+export function gerarCodigoIndicador() {
+  const bytes = crypto.randomBytes(6);
+  let codigo = "";
+  for (const byte of bytes) {
+    codigo += ALFABETO_CODIGO[byte % ALFABETO_CODIGO.length];
+  }
+  return codigo;
+}
+
 export type DadosProvisionamentoEmpresa = {
   nome: string;
   dominio?: string | null;

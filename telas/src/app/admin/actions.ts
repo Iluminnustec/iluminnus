@@ -6,7 +6,12 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { slugify, proximoVencimentoApartirDe, provisionarEmpresa } from "@/lib/provisionamento";
+import {
+  slugify,
+  proximoVencimentoApartirDe,
+  provisionarEmpresa,
+  gerarCodigoIndicador,
+} from "@/lib/provisionamento";
 
 async function exigirSuperAdmin() {
   const session = await getSession();
@@ -232,6 +237,7 @@ export async function createIndicador(
       contato: data.contato || null,
       chavePix: data.chavePix || null,
       percentualPadrao: data.percentualPadrao,
+      codigo: gerarCodigoIndicador(),
     },
   });
 

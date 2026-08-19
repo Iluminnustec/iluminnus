@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { updateIndicadorAtivo, marcarComissaoPaga } from "../../actions";
+import { CopyButton } from "@/components/copy-button";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://admin.iluminnus.com.br";
 
 export default async function IndicadorDetalhePage({
   params,
@@ -42,6 +45,12 @@ export default async function IndicadorDetalhePage({
             {indicador.contato ?? "sem contato"} · {indicador.percentualPadrao}% por pagamento
             {indicador.chavePix && ` · Pix: ${indicador.chavePix}`}
           </p>
+          <div className="mt-3 flex items-center gap-2">
+            <code className="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-600">
+              {SITE_URL}/assinar?ref={indicador.codigo}
+            </code>
+            <CopyButton texto={`${SITE_URL}/assinar?ref=${indicador.codigo}`} />
+          </div>
         </div>
         <form action={toggleAtivo}>
           <button

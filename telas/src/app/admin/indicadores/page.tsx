@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { IndicadorForm } from "./indicador-form";
+import { CopyButton } from "@/components/copy-button";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://admin.iluminnus.com.br";
 
 export default async function IndicadoresPage() {
   const indicadores = await prisma.indicador.findMany({
@@ -34,6 +37,7 @@ export default async function IndicadoresPage() {
             <tr>
               <th className="px-5 py-3">Nome</th>
               <th className="px-5 py-3">Contato</th>
+              <th className="px-5 py-3">Link de indicação</th>
               <th className="px-5 py-3">%</th>
               <th className="px-5 py-3">Empresas indicadas</th>
               <th className="px-5 py-3">Comissão pendente</th>
@@ -60,6 +64,9 @@ export default async function IndicadoresPage() {
                     </Link>
                   </td>
                   <td className="px-5 py-3 text-slate-600">{indicador.contato ?? "—"}</td>
+                  <td className="px-5 py-3">
+                    <CopyButton texto={`${SITE_URL}/assinar?ref=${indicador.codigo}`} />
+                  </td>
                   <td className="px-5 py-3 text-slate-600">{indicador.percentualPadrao}%</td>
                   <td className="px-5 py-3 text-slate-600">{indicador._count.empresas}</td>
                   <td className="px-5 py-3 text-amber-700">
@@ -82,7 +89,7 @@ export default async function IndicadoresPage() {
             })}
             {indicadores.length === 0 && (
               <tr>
-                <td colSpan={7} className="px-5 py-6 text-center text-slate-400">
+                <td colSpan={8} className="px-5 py-6 text-center text-slate-400">
                   Nenhum indicador cadastrado ainda.
                 </td>
               </tr>

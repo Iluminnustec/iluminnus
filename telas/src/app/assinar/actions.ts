@@ -18,6 +18,7 @@ const assinarSchema = z.object({
   adminNome: z.string().min(1, "Informe seu nome."),
   adminEmail: z.string().email("E-mail inválido."),
   adminSenha: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
+  ref: z.string().optional(),
 });
 
 export async function criarContaTelas(
@@ -48,6 +49,13 @@ export async function criarContaTelas(
   const trialAte = new Date();
   trialAte.setDate(trialAte.getDate() + TRIAL_DIAS);
 
+  // Veio de um link de indicação (/assinar?ref=codigo)? Vincula a Empresa
+  // ao indicador já na criação -- sem isso, a comissão nunca teria como
+  // saber quem trouxe esse cliente.
+  const indicador = data.ref
+    ? await prisma.indicador.findUnique({ where: { codigo: data.ref.toUpperCase() } })
+    : null;
+
   const { usuario, empresa } = await prisma.$transaction(async (tx) => {
     return provisionarEmpresa(tx, {
       nome: data.empresaNome,
@@ -60,6 +68,7 @@ export async function criarContaTelas(
       adminNome: data.adminNome,
       adminEmail: data.adminEmail,
       adminSenhaHash: senhaHash,
+      indicadorId: indicador?.ativo ? indicador.id : null,
     });
   });
 
