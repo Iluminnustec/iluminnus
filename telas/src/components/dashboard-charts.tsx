@@ -20,6 +20,9 @@ const CORES = {
   ativa: "#16a34a",
   inativa: "#94a3b8",
   manutencao: "#f59e0b",
+  atrasada: "#f59e0b",
+  suspensa: "#dc2626",
+  cancelada: "#94a3b8",
 };
 
 function formatBRL(value: number) {
@@ -82,6 +85,44 @@ export function TelasStatusBar({
   return (
     <div className="rounded-lg border border-slate-200 bg-white p-4">
       <p className="text-sm font-medium text-slate-700">Telas por status</p>
+      <ResponsiveContainer width="100%" height={192}>
+        <BarChart data={data} margin={{ top: 16, right: 8, left: -20, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+          <XAxis dataKey="name" tick={{ fontSize: 12 }} />
+          <YAxis allowDecimals={false} tick={{ fontSize: 12 }} />
+          <Tooltip />
+          <Bar dataKey="total" radius={[4, 4, 0, 0]}>
+            {data.map((entry) => (
+              <Cell key={entry.name} fill={entry.fill} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+
+export function AssinaturasStatusBar({
+  ativas,
+  atrasadas,
+  suspensas,
+  canceladas,
+}: {
+  ativas: number;
+  atrasadas: number;
+  suspensas: number;
+  canceladas: number;
+}) {
+  const data = [
+    { name: "Ativas", total: ativas, fill: CORES.ativa },
+    { name: "Atrasadas", total: atrasadas, fill: CORES.atrasada },
+    { name: "Suspensas", total: suspensas, fill: CORES.suspensa },
+    { name: "Canceladas", total: canceladas, fill: CORES.cancelada },
+  ];
+
+  return (
+    <div className="rounded-lg border border-slate-200 bg-white p-4">
+      <p className="text-sm font-medium text-slate-700">Empresas por status da assinatura</p>
       <ResponsiveContainer width="100%" height={192}>
         <BarChart data={data} margin={{ top: 16, right: 8, left: -20, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />

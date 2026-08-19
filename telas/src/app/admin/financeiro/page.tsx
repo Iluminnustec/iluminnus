@@ -1,5 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { DeleteButton } from "@/components/delete-button";
+import { PeriodFilter } from "@/components/period-filter";
+import { calcularIntervalo } from "@/lib/period";
+import { ReceitaDespesaPie, AssinaturasStatusBar } from "@/components/dashboard-charts";
 import {
   criarDespesaIluminnus,
   marcarDespesaIluminnusPaga,
@@ -14,72 +17,116 @@ function formatDate(date: Date) {
   return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
 }
 
-export default async function FinanceiroPage() {
-  const agora = new Date();
-  const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1);
-  const inicioProximoMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 1);
+export default async function FinanceiroPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ periodo?: string; inicio?: string; fim?: string }>;
+}) {
+  const params = await searchParams;
+  const { inicio, fim, label: periodoLabel } = calcularIntervalo(
+    params.periodo,
+    params.inicio,
+    params.fim
+  );
 
-  const [assinaturasAtivas, pagamentosDoMes, despesasDoMes, pagamentosRecentes, despesas] =
-    await Promise.all([
-      prisma.assinatura.findMany({
-        where: { status: "ATIVA" },
-        select: { valorMensal: true },
-      }),
-      prisma.pagamentoAssinatura.aggregate({
-        where: { dataPagamento: { gte: inicioMes, lt: inicioProximoMes } },
-        _sum: { valor: true },
-      }),
-      prisma.despesaIluminnus.aggregate({
-        where: { data: { gte: inicioMes, lt: inicioProximoMes } },
-        _sum: { valor: true },
-      }),
-      prisma.pagamentoAssinatura.findMany({
-        orderBy: { dataPagamento: "desc" },
-        take: 10,
-        include: { assinatura: { include: { empresa: { select: { nome: true } } } } },
-      }),
-      prisma.despesaIluminnus.findMany({ orderBy: { data: "desc" } }),
-    ]);
+  const [
+    assinaturasPorStatus,
+    pagamentosDoPeriodo,
+    despesasDoPeriodo,
+    pagamentosRecentes,
+    despesas,
+  ] = await Promise.all([
+    prisma.assinatura.groupBy({ by: ["status"], _count: { _all: true }, _sum: { valorMensal: true } }),
+    prisma.pagamentoAssinatura.aggregate({
+      where: { dataPagamento: { gte: inicio, lt: fim } },
+      _sum: { valor: true },
+    }),
+    prisma.despesaIluminnus.aggregate({
+      where: { data: { gte: inicio, lt: fim } },
+      _sum: { valor: true },
+    }),
+    prisma.pagamentoAssinatura.findMany({
+      where: { dataPagamento: { gte: inicio, lt: fim } },
+      orderBy: { dataPagamento: "desc" },
+      include: { assinatura: { include: { empresa: { select: { nome: true } } } } },
+    }),
+    prisma.despesaIluminnus.findMany({
+      where: { data: { gte: inicio, lt: fim } },
+      orderBy: { data: "desc" },
+    }),
+  ]);
 
-  const mrr = assinaturasAtivas.reduce((soma, a) => soma + a.valorMensal, 0);
-  const receitaMes = pagamentosDoMes._sum.valor ?? 0;
-  const despesaMes = despesasDoMes._sum.valor ?? 0;
-  const saldoMes = receitaMes - despesaMes;
+  const contarStatus = (status: string) =>
+    assinaturasPorStatus.find((a) => a.status === status)?._count._all ?? 0;
+  const mrr = assinaturasPorStatus
+    .filter((a) => a.status === "ATIVA")
+    .reduce((soma, a) => soma + (a._sum.valorMensal ?? 0), 0);
+
+  const receitaPeriodo = pagamentosDoPeriodo._sum.valor ?? 0;
+  const despesaPeriodo = despesasDoPeriodo._sum.valor ?? 0;
+  const saldoPeriodo = receitaPeriodo - despesaPeriodo;
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Financeiro</h1>
-      <p className="mt-1 text-sm text-slate-500">
-        Fluxo de caixa da Iluminnus — receita das assinaturas dos donos e despesas próprias.
-      </p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">Financeiro</h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Fluxo de caixa da Iluminnus — receita das assinaturas dos donos e despesas próprias.
+          </p>
+        </div>
+        <PeriodFilter />
+      </div>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Visão geral
+      </h2>
+      <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border border-slate-200 bg-white p-5">
           <p className="text-sm text-slate-500">MRR (assinaturas ativas)</p>
           <p className="mt-2 text-2xl font-bold text-slate-900">{formatBRL(mrr)}</p>
         </div>
         <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-500">Recebido no mês</p>
-          <p className="mt-2 text-2xl font-bold text-slate-900">{formatBRL(receitaMes)}</p>
+          <p className="text-sm text-slate-500">Recebido no período</p>
+          <p className="mt-2 text-2xl font-bold text-slate-900">{formatBRL(receitaPeriodo)}</p>
         </div>
         <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-500">Despesas no mês</p>
-          <p className="mt-2 text-2xl font-bold text-slate-900">{formatBRL(despesaMes)}</p>
+          <p className="text-sm text-slate-500">Despesas no período</p>
+          <p className="mt-2 text-2xl font-bold text-slate-900">{formatBRL(despesaPeriodo)}</p>
         </div>
         <div className="rounded-lg border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-500">Saldo do mês</p>
+          <p className="text-sm text-slate-500">Saldo do período</p>
           <p
-            className={`mt-2 text-2xl font-bold ${saldoMes < 0 ? "text-red-600" : "text-slate-900"}`}
+            className={`mt-2 text-2xl font-bold ${saldoPeriodo < 0 ? "text-red-600" : "text-slate-900"}`}
           >
-            {formatBRL(saldoMes)}
+            {formatBRL(saldoPeriodo)}
           </p>
         </div>
       </div>
 
-      <h2 className="mt-10 text-lg font-semibold text-slate-900">Pagamentos recentes</h2>
-      <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200 bg-white">
+      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Gráficos
+      </h2>
+      <div className="mt-3 grid gap-4 sm:grid-cols-2">
+        <ReceitaDespesaPie
+          receita={receitaPeriodo}
+          despesa={despesaPeriodo}
+          periodoLabel={periodoLabel}
+        />
+        <AssinaturasStatusBar
+          ativas={contarStatus("ATIVA")}
+          atrasadas={contarStatus("ATRASADA")}
+          suspensas={contarStatus("SUSPENSA")}
+          canceladas={contarStatus("CANCELADA")}
+        />
+      </div>
+
+      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Pagamentos no período
+      </h2>
+      <div className="mt-3 max-h-96 overflow-auto rounded-lg border border-slate-200 bg-white">
         <table className="w-full min-w-[560px] text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+          <thead className="sticky top-0 bg-slate-50 text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3">Empresa</th>
               <th className="px-4 py-3">Referência</th>
@@ -103,7 +150,7 @@ export default async function FinanceiroPage() {
             {pagamentosRecentes.length === 0 && (
               <tr>
                 <td colSpan={4} className="px-4 py-10 text-center text-slate-400">
-                  Nenhum pagamento registrado ainda.
+                  Nenhum pagamento no período selecionado.
                 </td>
               </tr>
             )}
@@ -111,8 +158,10 @@ export default async function FinanceiroPage() {
         </table>
       </div>
 
-      <h2 className="mt-10 text-lg font-semibold text-slate-900">Despesas da Iluminnus</h2>
-      <form action={criarDespesaIluminnus} className="mt-4 grid gap-3 sm:grid-cols-[2fr_1fr_1fr_1fr_auto]">
+      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Despesas da Iluminnus
+      </h2>
+      <form action={criarDespesaIluminnus} className="mt-3 grid gap-3 sm:grid-cols-[2fr_1fr_1fr_1fr_auto]">
         <input
           name="descricao"
           placeholder="Descrição"
@@ -147,9 +196,9 @@ export default async function FinanceiroPage() {
         </button>
       </form>
 
-      <div className="mt-4 overflow-x-auto rounded-lg border border-slate-200 bg-white">
+      <div className="mt-4 max-h-96 overflow-auto rounded-lg border border-slate-200 bg-white">
         <table className="w-full min-w-[560px] text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+          <thead className="sticky top-0 bg-slate-50 text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3">Descrição</th>
               <th className="px-4 py-3">Categoria</th>
@@ -198,7 +247,7 @@ export default async function FinanceiroPage() {
             {despesas.length === 0 && (
               <tr>
                 <td colSpan={6} className="px-4 py-10 text-center text-slate-400">
-                  Nenhuma despesa cadastrada ainda.
+                  Nenhuma despesa no período selecionado.
                 </td>
               </tr>
             )}

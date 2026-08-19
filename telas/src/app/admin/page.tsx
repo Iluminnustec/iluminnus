@@ -44,9 +44,9 @@ export default async function AdminEmpresasPage() {
         </Link>
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-lg border border-slate-200 bg-white">
+      <div className="mt-6 max-h-[560px] overflow-auto rounded-lg border border-slate-200 bg-white">
         <table className="w-full min-w-[640px] text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+          <thead className="sticky top-0 bg-slate-50 text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3">Empresa</th>
               <th className="px-4 py-3">Domínio</th>
