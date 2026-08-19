@@ -45,14 +45,14 @@ export function MobilePainelNav({ cargo }: { cargo: Cargo }) {
             <div className="flex items-center justify-between px-5 py-5">
               <div className="flex items-center gap-2">
                 <Image
-                  src="/brand/logo-icon.png"
-                  alt="Brivox Mídia"
+                  src="/brand/telas-icon.png"
+                  alt="Telas"
                   width={28}
-                  height={36}
-                  className="h-7 w-auto"
+                  height={28}
+                  className="h-7 w-7"
                 />
                 <div>
-                  <p className="text-sm font-semibold leading-tight text-white">Brivox</p>
+                  <p className="text-sm font-semibold leading-tight text-white">Telas</p>
                   <p className="text-xs leading-tight text-slate-400">Painel</p>
                 </div>
               </div>

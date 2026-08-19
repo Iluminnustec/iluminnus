@@ -8,14 +8,14 @@ export function SiteFooter() {
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center gap-2">
             <Image
-              src="/brand/logo-icon.png"
-              alt="Brivox Mídia"
+              src="/brand/telas-icon.png"
+              alt="Telas"
               width={28}
-              height={36}
-              className="h-7 w-auto"
+              height={28}
+              className="h-7 w-7"
             />
             <div>
-              <p className="font-semibold text-white">Brivox Mídia</p>
+              <p className="font-semibold text-white">Telas</p>
               <p className="text-slate-400">Mídia indoor em João Pessoa, PB</p>
             </div>
           </div>
@@ -32,7 +32,7 @@ export function SiteFooter() {
           </div>
         </div>
         <p className="mt-8 text-xs text-slate-500">
-          © {new Date().getFullYear()} Brivox Mídia. Todos os direitos reservados.
+          © {new Date().getFullYear()} Telas. Todos os direitos reservados.
         </p>
       </div>
     </footer>

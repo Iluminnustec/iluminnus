@@ -57,11 +57,11 @@ export default function HomePage() {
         <div className="relative mx-auto grid max-w-6xl gap-12 px-6 py-24 lg:grid-cols-2 lg:items-center">
           <div>
             <Image
-              src="/brand/logo-icon.png"
-              alt="Brivox Mídia"
+              src="/brand/telas-icon.png"
+              alt="Telas"
               width={56}
-              height={72}
-              className="h-12 w-auto"
+              height={56}
+              className="h-12 w-12"
             />
 
             <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 backdrop-blur-sm">
@@ -103,19 +103,12 @@ export default function HomePage() {
 
           <div className="hidden flex-col items-center justify-center lg:flex">
             <Image
-              src="/brand/logo-icon.png"
-              alt="Brivox Mídia"
-              width={220}
+              src="/brand/telas-logo-full.png"
+              alt="Telas"
+              width={280}
               height={280}
-              className="h-auto w-full max-w-[180px] drop-shadow-[0_0_40px_rgba(65,105,225,0.35)]"
+              className="h-auto w-full max-w-[220px] drop-shadow-[0_0_40px_rgba(65,105,225,0.35)]"
             />
-            <p className="mt-6 text-4xl font-bold tracking-[0.2em] text-white">
-              BRIVOX
-              <span className="ml-3 align-middle text-2xl font-normal tracking-[0.3em] text-brivox-bronze">
-                mídia
-              </span>
-            </p>
-            <div className="mt-3 h-px w-40 bg-white/20" />
             <p className="mt-3 text-xs font-medium uppercase tracking-[0.25em] text-slate-400">
               Presença que conecta. Impacto que fica.
             </p>
@@ -128,7 +121,7 @@ export default function HomePage() {
           Vantagens
         </p>
         <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-          Por que anunciar com a Brivox
+          Por que anunciar com a Telas
         </h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {pilares.map((item, i) => {

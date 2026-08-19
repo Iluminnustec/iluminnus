@@ -15,13 +15,13 @@ export default function LoginClientePage() {
       <div className="w-full max-w-sm rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/brand/logo-icon.png"
-            alt="Brivox Mídia"
+            src="/brand/telas-icon.png"
+            alt="Telas"
             width={32}
-            height={41}
-            className="h-8 w-auto"
+            height={32}
+            className="h-8 w-8"
           />
-          <span className="text-lg font-semibold text-slate-900">Brivox</span>
+          <span className="text-lg font-semibold text-slate-900">Telas</span>
         </Link>
 
         <h1 className="mt-6 text-xl font-bold text-slate-900">Entrar na área do cliente</h1>

@@ -15,7 +15,7 @@ export default function ContatoPage() {
             Contato
           </p>
           <h1 className="mt-4 text-3xl font-bold sm:text-4xl">
-            Fale com a Brivox Mídia
+            Fale com a Telas
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-slate-300">
             Quer anunciar em nossa rede de telas ou tornar-se um ponto

@@ -93,7 +93,7 @@ export async function loginClienteAction(
   }
 
   if (!cliente.ativo) {
-    return { error: "Esta conta está inativa. Fale com a Brivox." };
+    return { error: "Esta conta está inativa. Fale com a equipe." };
   }
 
   const senhaValida = await bcrypt.compare(data.senha, cliente.senhaHash);

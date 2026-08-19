@@ -15,15 +15,15 @@ export function SiteHeader() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/brand/logo-icon.png"
-            alt="Brivox Mídia"
+            src="/brand/telas-icon.png"
+            alt="Telas"
             width={32}
-            height={41}
-            className="h-8 w-auto"
+            height={32}
+            className="h-8 w-8"
             priority
           />
           <span className="text-lg font-semibold tracking-tight text-slate-900">
-            Brivox <span className="text-brivox-bronze">Mídia</span>
+            <span className="text-brivox-bronze">Telas</span>
           </span>
         </Link>
 

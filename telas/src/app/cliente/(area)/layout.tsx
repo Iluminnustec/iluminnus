@@ -28,13 +28,13 @@ export default async function AreaClienteLayout({
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-6 py-4">
           <Link href="/cliente/plano" className="flex items-center gap-2">
             <Image
-              src="/brand/logo-icon.png"
-              alt="Brivox Mídia"
+              src="/brand/telas-icon.png"
+              alt="Telas"
               width={28}
-              height={36}
-              className="h-7 w-auto"
+              height={28}
+              className="h-7 w-7"
             />
-            <span className="text-base font-semibold text-slate-900">Brivox</span>
+            <span className="text-base font-semibold text-slate-900">Telas</span>
           </Link>
 
           <nav className="flex items-center gap-5 text-sm font-medium text-slate-600">

@@ -33,7 +33,7 @@ export default function SobrePage() {
       <section className="bg-brivox-navy text-white">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
           <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brivox-bronze">
-            Sobre a Brivox
+            Sobre a Telas
           </p>
           <h1 className="mt-4 text-3xl font-bold sm:text-4xl">
             Comunicação que conecta.
@@ -41,7 +41,7 @@ export default function SobrePage() {
             Resultados que transformam.
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-slate-300">
-            A Brivox Mídia é uma empresa de mídia indoor com atuação em João
+            A Telas é uma plataforma de mídia indoor com atuação em João
             Pessoa, responsável pela instalação e gestão de telas digitais em
             empreendimentos de alto padrão.
           </p>
@@ -78,7 +78,7 @@ export default function SobrePage() {
           <p className="mt-3 max-w-2xl text-slate-600">
             Nossa operação combina locais bem selecionados com uma gestão
             próxima de cada parceiro e anunciante, garantindo que cada tela
-            entregue o melhor resultado possível para quem confia na Brivox.
+            entregue o melhor resultado possível para quem confia na Telas.
           </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-3">
             {valores.map((item) => {

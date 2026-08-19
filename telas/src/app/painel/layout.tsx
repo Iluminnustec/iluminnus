@@ -35,14 +35,14 @@ export default async function PainelLayout({
       <aside className="hidden w-64 shrink-0 flex-col bg-brivox-navy sm:flex">
         <div className="flex items-center gap-2 px-5 py-5">
           <Image
-            src="/brand/logo-icon.png"
-            alt="Brivox Mídia"
+            src="/brand/telas-icon.png"
+            alt="Telas"
             width={28}
-            height={36}
-            className="h-7 w-auto"
+            height={28}
+            className="h-7 w-7"
           />
           <div>
-            <p className="text-sm font-semibold leading-tight text-white">Brivox</p>
+            <p className="text-sm font-semibold leading-tight text-white">Telas</p>
             <p className="text-xs leading-tight text-slate-400">Painel</p>
           </div>
         </div>
@@ -60,13 +60,13 @@ export default async function PainelLayout({
           <div className="flex items-center gap-2 sm:hidden">
             <MobilePainelNav cargo={session.cargo} />
             <Image
-              src="/brand/logo-icon.png"
-              alt="Brivox Mídia"
+              src="/brand/telas-icon.png"
+              alt="Telas"
               width={24}
-              height={31}
-              className="h-6 w-auto"
+              height={24}
+              className="h-6 w-6"
             />
-            <span className="text-base font-semibold text-slate-900">Brivox</span>
+            <span className="text-base font-semibold text-slate-900">Telas</span>
           </div>
           <div className="hidden sm:block" />
           <UserMenu nome={session.nome} email={session.email} onLogout={logoutAction} />

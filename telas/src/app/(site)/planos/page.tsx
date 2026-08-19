@@ -32,7 +32,7 @@ const planos = [
     porTela: "89,50",
     destaque: false,
     tag: null,
-    descricao: "Máxima cobertura da rede Brivox.",
+    descricao: "Máxima cobertura da rede Telas.",
   },
 ];
 
@@ -167,7 +167,7 @@ export default function PlanosPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="text-2xl font-bold text-slate-900">É simples anunciar com a Brivox</h2>
+        <h2 className="text-2xl font-bold text-slate-900">É simples anunciar com a Telas</h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {comoFunciona.map((step) => (
             <div
