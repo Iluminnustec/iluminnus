@@ -11,27 +11,34 @@ const initialState: AssinarState = {};
 export function AssinarForm({
   codigoRef,
   indicadorNome,
+  origem,
 }: {
   codigoRef?: string;
   indicadorNome?: string | null;
+  origem?: string;
 }) {
   const [state, formAction, pending] = useActionState(criarContaTelas, initialState);
+  const marcaIluminnus = origem === "iluminnus";
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-6 py-12">
       <div className="w-full max-w-sm rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/brand/telas-icon.png"
-            alt="Telas"
+            src={marcaIluminnus ? "/brand/logo-iluminnus.jpg" : "/brand/telas-icon.png"}
+            alt={marcaIluminnus ? "Iluminnus" : "Telas"}
             width={32}
             height={32}
-            className="h-8 w-8"
+            className={marcaIluminnus ? "h-8 w-8 rounded-md object-cover" : "h-8 w-8"}
           />
-          <span className="text-lg font-semibold text-slate-900">Telas</span>
+          <span className="text-lg font-semibold text-slate-900">
+            {marcaIluminnus ? "Iluminnus" : "Telas"}
+          </span>
         </Link>
 
-        <h1 className="mt-6 text-xl font-bold text-slate-900">Assine o Telas</h1>
+        <h1 className="mt-6 text-xl font-bold text-slate-900">
+          {marcaIluminnus ? "Seja cliente Iluminnus" : "Assine o Telas"}
+        </h1>
         <p className="mt-1 text-sm text-slate-500">
           14 dias de teste grátis. Sem cartão de crédito agora.
         </p>
@@ -120,7 +127,10 @@ export function AssinarForm({
 
         <p className="mt-4 text-center text-sm text-slate-500">
           Já tem conta?{" "}
-          <Link href="/login" className="font-medium text-telas-blue hover:underline">
+          <Link
+            href={marcaIluminnus ? "/login?origem=iluminnus" : "/login"}
+            className="font-medium text-telas-blue hover:underline"
+          >
             Entrar
           </Link>
         </p>

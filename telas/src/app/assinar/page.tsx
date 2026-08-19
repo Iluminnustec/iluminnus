@@ -4,9 +4,9 @@ import { AssinarForm } from "./assinar-form";
 export default async function AssinarPage({
   searchParams,
 }: {
-  searchParams: Promise<{ ref?: string }>;
+  searchParams: Promise<{ ref?: string; origem?: string }>;
 }) {
-  const { ref } = await searchParams;
+  const { ref, origem } = await searchParams;
 
   const indicador = ref
     ? await prisma.indicador.findUnique({ where: { codigo: ref.toUpperCase() } })
@@ -16,6 +16,7 @@ export default async function AssinarPage({
     <AssinarForm
       codigoRef={ref}
       indicadorNome={indicador?.ativo ? indicador.nome : null}
+      origem={origem}
     />
   );
 }

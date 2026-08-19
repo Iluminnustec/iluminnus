@@ -10,9 +10,12 @@ const LINKS = [
 // Login único: admin (Iluminnus), painel (donos) e cliente compartilham o
 // mesmo /login -- só muda o domínio (dominio proprio em vez do vercel.app),
 // nao a rota. Nao ha rewrite por host, entao qualquer dominio apontado pro
-// projeto Telas na Vercel serve o mesmo app.
+// projeto Telas na Vercel serve o mesmo app. O "?origem=iluminnus" so troca
+// a marca (logo/texto) mostrada la, pra nao aparecer a marca Telas pra quem
+// veio do site institucional da Iluminnus.
 const TELAS_URL = process.env.NEXT_PUBLIC_TELAS_URL ?? "https://admin.iluminnus.com.br";
-const LOGIN_URL = `${TELAS_URL}/login`;
+const LOGIN_URL = `${TELAS_URL}/login?origem=iluminnus`;
+const CADASTRO_URL = `${TELAS_URL}/assinar?origem=iluminnus`;
 
 export function SiteHeader() {
   return (
@@ -47,6 +50,12 @@ export function SiteHeader() {
             className="rounded-full border border-gold/40 px-4 py-1.5 text-sm font-medium text-gold-bright transition-colors hover:bg-gold/10"
           >
             Entrar
+          </a>
+          <a
+            href={CADASTRO_URL}
+            className="hidden rounded-full bg-gold px-4 py-1.5 text-sm font-medium text-background transition-colors hover:brightness-110 sm:inline-block"
+          >
+            Seja cliente
           </a>
         </div>
       </div>
