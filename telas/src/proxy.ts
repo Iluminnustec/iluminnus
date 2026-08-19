@@ -18,9 +18,12 @@ export async function proxy(request: NextRequest) {
 
   const noHostDeAdmin = host !== ADMIN_HOST;
   const jaEhAdminOuLogin = pathname.startsWith("/admin") || pathname.startsWith("/login");
+  // Arquivo estático (imagem, ícone, etc. em public/) -- nunca reescrever,
+  // senão a logo e outros assets quebram nesse subdomínio.
+  const ehArquivoEstatico = pathname.split("/").pop()?.includes(".") ?? false;
 
   const targetPathname =
-    noHostDeAdmin || jaEhAdminOuLogin
+    noHostDeAdmin || jaEhAdminOuLogin || ehArquivoEstatico
       ? pathname
       : pathname === "/"
         ? "/admin"
