@@ -67,6 +67,13 @@ export default function LoginPage() {
             {pending ? "Entrando..." : "Entrar"}
           </button>
         </form>
+
+        <p className="mt-4 text-center text-sm text-slate-500">
+          Ainda não tem conta?{" "}
+          <Link href="/assinar" className="font-medium text-brivox-blue hover:underline">
+            Assine o Telas
+          </Link>
+        </p>
       </div>
     </div>
   );

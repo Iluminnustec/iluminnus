@@ -31,6 +31,9 @@ export default async function EmpresaDetalhePage({
             {empresa.dominio ?? "sem domínio configurado"}
             {empresa.cidade && ` · ${empresa.cidade}${empresa.estado ? `/${empresa.estado}` : ""}`}
           </p>
+          <p className="mt-2 inline-block rounded-md bg-slate-100 px-2 py-1 font-mono text-xs text-slate-600 select-all">
+            {empresa.licenca}
+          </p>
         </div>
         <form action={toggleAtivo}>
           <button
@@ -55,6 +58,11 @@ export default async function EmpresaDetalhePage({
 
       <section className="rounded-lg border border-slate-200 bg-white p-6">
         <h2 className="text-sm font-semibold text-slate-900">Assinatura</h2>
+        {empresa.assinatura?.trialAte && (
+          <p className="mt-1 text-xs text-slate-500">
+            Teste grátis até {empresa.assinatura.trialAte.toLocaleDateString("pt-BR")}.
+          </p>
+        )}
         <div className="mt-4">
           {empresa.assinatura ? (
             <AssinaturaForm assinatura={empresa.assinatura} />

@@ -105,6 +105,7 @@ model Empresa {
   cidade    String?
   estado    String?
   ativo     Boolean  @default(true)
+  licenca   String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -134,6 +135,9 @@ model Assinatura {
   status            StatusAssinatura @default(ATIVA)
   dataInicio        DateTime         @default(now())
   proximoVencimento DateTime
+  // Preenchido em cadastros via período de teste (/assinar). Enquanto no
+  // futuro, a empresa tem acesso mesmo sem pagamento registrado ainda.
+  trialAte          DateTime?
   createdAt         DateTime         @default(now())
   updatedAt         DateTime         @updatedAt
 
@@ -540,4 +544,26 @@ model MovimentoEstoque {
 
   itemEstoqueId String
   itemEstoque   ItemEstoque @relation(fields: [itemEstoqueId], references: [id], onDelete: Cascade)
+}
+
+enum StatusDespesaIluminnus {
+  PENDENTE
+  PAGO
+}
+
+// Fluxo de caixa da própria Iluminnus (dona do produto) -- não tem relação
+// com Empresa, porque não é gasto de nenhum dono, é gasto da Iluminnus. A
+// receita da Iluminnus vem de PagamentoAssinatura (já existe, agregado por
+// todas as empresas), não precisa de model próprio.
+model DespesaIluminnus {
+  id            String                 @id @default(cuid())
+  descricao     String
+  categoria     String?
+  valor         Float
+  data          DateTime
+  status        StatusDespesaIluminnus @default(PENDENTE)
+  dataPagamento DateTime?
+  observacoes   String?
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
 }

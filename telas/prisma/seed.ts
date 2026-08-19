@@ -1,9 +1,15 @@
+import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "../src/generated/prisma/client";
 
 const adapter = new PrismaPg(process.env.DATABASE_URL as string);
 const prisma = new PrismaClient({ adapter });
+
+function gerarLicenca() {
+  const bloco = () => crypto.randomBytes(2).toString("hex").toUpperCase();
+  return `TELAS-${bloco()}-${bloco()}-${bloco()}`;
+}
 
 const SUPER_ADMINS = [
   {
@@ -47,7 +53,9 @@ async function main() {
   // originou o produto, agora rodando como um tenant normal.
   let empresa = await prisma.empresa.findUnique({ where: { slug: EMPRESA_BRIVOX.slug } });
   if (!empresa) {
-    empresa = await prisma.empresa.create({ data: EMPRESA_BRIVOX });
+    empresa = await prisma.empresa.create({
+      data: { ...EMPRESA_BRIVOX, licenca: gerarLicenca() },
+    });
     console.log(`Empresa criada: ${empresa.nome} (${empresa.slug})`);
 
     const proximoVencimento = new Date();

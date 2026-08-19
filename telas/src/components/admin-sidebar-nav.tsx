@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Building2 } from "lucide-react";
+import { Building2, Wallet } from "lucide-react";
 
-const items = [{ href: "/admin", label: "Empresas", icon: Building2 }];
+const items = [
+  { href: "/admin", label: "Empresas", icon: Building2 },
+  { href: "/admin/financeiro", label: "Financeiro", icon: Wallet },
+];
 
 export function AdminSidebarNav() {
   const pathname = usePathname();
@@ -12,7 +15,10 @@ export function AdminSidebarNav() {
   return (
     <nav className="flex-1 space-y-0.5 px-3">
       {items.map((item) => {
-        const ativo = pathname === item.href || pathname.startsWith(item.href + "/");
+        const ativo =
+          item.href === "/admin"
+            ? pathname === "/admin"
+            : pathname === item.href || pathname.startsWith(item.href + "/");
         const Icon = item.icon;
         return (
           <Link

@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
+import { slugify, proximoVencimentoApartirDe, provisionarEmpresa } from "@/lib/provisionamento";
 
 async function exigirSuperAdmin() {
   const session = await getSession();
@@ -13,30 +14,6 @@ async function exigirSuperAdmin() {
     throw new Error("Apenas administradores da Iluminnus podem acessar isto.");
   }
   return session;
-}
-
-const MAPA_ACENTOS: Record<string, string> = {
-  á: "a", à: "a", â: "a", ã: "a", ä: "a",
-  é: "e", è: "e", ê: "e", ë: "e",
-  í: "i", ì: "i", î: "i", ï: "i",
-  ó: "o", ò: "o", ô: "o", õ: "o", ö: "o",
-  ú: "u", ù: "u", û: "u", ü: "u",
-  ç: "c", ñ: "n",
-};
-
-function slugify(valor: string) {
-  return valor
-    .toLowerCase()
-    .split("")
-    .map((c) => MAPA_ACENTOS[c] ?? c)
-    .join("")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-function proximoVencimentoApartirDe(base: Date, diaVencimento: number) {
-  const data = new Date(base.getFullYear(), base.getMonth() + 1, diaVencimento);
-  return data;
 }
 
 export type EmpresaState = { error?: string };
@@ -81,38 +58,19 @@ export async function createEmpresa(
   }
 
   const senhaHash = await bcrypt.hash(data.adminSenha, 10);
-  const proximoVencimento = proximoVencimentoApartirDe(new Date(), data.diaVencimento);
 
   await prisma.$transaction(async (tx) => {
-    const empresa = await tx.empresa.create({
-      data: {
-        nome: data.nome,
-        slug,
-        dominio: data.dominio || null,
-        cidade: data.cidade || null,
-        estado: data.estado || null,
-      },
-    });
-
-    await tx.assinatura.create({
-      data: {
-        empresaId: empresa.id,
-        plano: data.plano,
-        valorMensal: data.valorMensal,
-        diaVencimento: data.diaVencimento,
-        status: "ATIVA",
-        proximoVencimento,
-      },
-    });
-
-    await tx.usuario.create({
-      data: {
-        nome: data.adminNome,
-        email: data.adminEmail,
-        senhaHash,
-        cargo: "ADMIN",
-        empresaId: empresa.id,
-      },
+    await provisionarEmpresa(tx, {
+      nome: data.nome,
+      dominio: data.dominio,
+      cidade: data.cidade,
+      estado: data.estado,
+      plano: data.plano,
+      valorMensal: data.valorMensal,
+      diaVencimento: data.diaVencimento,
+      adminNome: data.adminNome,
+      adminEmail: data.adminEmail,
+      adminSenhaHash: senhaHash,
     });
   });
 
