@@ -5,6 +5,7 @@ import { logoutAction } from "@/app/painel/actions";
 import { VersionBadge } from "@/components/version-badge";
 import { UserMenu } from "@/components/user-menu";
 import { AdminSidebarNav } from "@/components/admin-sidebar-nav";
+import { MobileAdminNav } from "@/components/mobile-admin-nav";
 
 export default async function AdminLayout({
   children,
@@ -44,6 +45,7 @@ export default async function AdminLayout({
       <div className="flex flex-1 flex-col overflow-hidden">
         <header className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-6 py-3">
           <div className="flex items-center gap-2 sm:hidden">
+            <MobileAdminNav />
             <div className="relative h-7 w-7 shrink-0 overflow-hidden rounded-md">
               <Image
                 src="/brand/logo-iluminnus.jpg"

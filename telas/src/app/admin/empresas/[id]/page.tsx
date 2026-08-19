@@ -16,6 +16,7 @@ export default async function EmpresaDetalhePage({
     include: {
       assinatura: { include: { pagamentos: { orderBy: { referencia: "desc" } } } },
       usuarios: { orderBy: { nome: "asc" } },
+      licencas: { include: { app: true }, orderBy: { criadaEm: "asc" } },
     },
   });
   if (!empresa) notFound();
@@ -31,9 +32,28 @@ export default async function EmpresaDetalhePage({
             {empresa.dominio ?? "sem domínio configurado"}
             {empresa.cidade && ` · ${empresa.cidade}${empresa.estado ? `/${empresa.estado}` : ""}`}
           </p>
-          <p className="mt-2 inline-block rounded-md bg-slate-100 px-2 py-1 font-mono text-xs text-slate-600 select-all">
-            {empresa.licenca}
-          </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {empresa.licencas.map((licenca) => (
+              <span
+                key={licenca.id}
+                className="inline-flex items-center gap-2 rounded-md bg-slate-100 px-2 py-1 font-mono text-xs text-slate-600 select-all"
+                title={`Licença do app ${licenca.app.nome}`}
+              >
+                {licenca.app.nome}: {licenca.codigo}
+                <span
+                  className={`rounded-full px-1.5 py-0.5 text-[10px] font-sans font-medium ${
+                    licenca.status === "ATIVA"
+                      ? "bg-green-100 text-green-700"
+                      : licenca.status === "SUSPENSA"
+                        ? "bg-amber-100 text-amber-700"
+                        : "bg-slate-200 text-slate-600"
+                  }`}
+                >
+                  {licenca.status}
+                </span>
+              </span>
+            ))}
+          </div>
         </div>
         <form action={toggleAtivo}>
           <button

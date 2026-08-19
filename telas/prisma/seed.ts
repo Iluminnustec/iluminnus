@@ -58,10 +58,17 @@ async function main() {
   // esse slug. Não mexe em nenhum dono real já cadastrado.
   let empresa = await prisma.empresa.findUnique({ where: { slug: EMPRESA_EXEMPLO.slug } });
   if (!empresa) {
-    empresa = await prisma.empresa.create({
-      data: { ...EMPRESA_EXEMPLO, licenca: gerarLicenca() },
-    });
+    empresa = await prisma.empresa.create({ data: EMPRESA_EXEMPLO });
     console.log(`Empresa criada: ${empresa.nome} (${empresa.slug})`);
+
+    const appTelas = await prisma.app.upsert({
+      where: { slug: "telas" },
+      create: { nome: "Telas", slug: "telas" },
+      update: {},
+    });
+    await prisma.licenca.create({
+      data: { empresaId: empresa.id, appId: appTelas.id, codigo: gerarLicenca() },
+    });
 
     const proximoVencimento = new Date();
     proximoVencimento.setMonth(proximoVencimento.getMonth() + 1);

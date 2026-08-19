@@ -45,25 +45,42 @@ export type DadosProvisionamentoEmpresa = {
   adminSenhaHash: string;
 };
 
-// Cria Empresa + Assinatura + primeiro Usuario (ADMIN) numa transação só —
-// usado tanto pelo cadastro manual em /admin quanto pelo auto-cadastro
-// público em /assinar. Quem chama já validou que slug/e-mail não existem.
+// Slug do App usado por este próprio produto -- toda Empresa provisionada
+// aqui ganha uma Licenca pra esse App (registro central da Iluminnus).
+const APP_SLUG_TELAS = "telas";
+
+// Cria Empresa + Licenca (do App Telas) + Assinatura + primeiro Usuario
+// (ADMIN) numa transação só — usado tanto pelo cadastro manual em /admin
+// quanto pelo auto-cadastro público em /assinar. Quem chama já validou que
+// slug/e-mail não existem.
 export async function provisionarEmpresa(
   tx: Prisma.TransactionClient,
   dados: DadosProvisionamentoEmpresa
 ) {
   const slug = slugify(dados.nome);
-  const licenca = gerarLicenca();
   const proximoVencimento = proximoVencimentoApartirDe(new Date(), dados.diaVencimento);
+
+  const appTelas = await tx.app.upsert({
+    where: { slug: APP_SLUG_TELAS },
+    create: { nome: "Telas", slug: APP_SLUG_TELAS },
+    update: {},
+  });
 
   const empresa = await tx.empresa.create({
     data: {
       nome: dados.nome,
       slug,
-      licenca,
       dominio: dados.dominio || null,
       cidade: dados.cidade || null,
       estado: dados.estado || null,
+    },
+  });
+
+  await tx.licenca.create({
+    data: {
+      empresaId: empresa.id,
+      appId: appTelas.id,
+      codigo: gerarLicenca(),
     },
   });
 
