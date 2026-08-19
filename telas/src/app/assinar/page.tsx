@@ -14,7 +14,7 @@ export default async function AssinarPage({
 
   return (
     <AssinarForm
-      ref={ref}
+      codigoRef={ref}
       indicadorNome={indicador?.ativo ? indicador.nome : null}
     />
   );

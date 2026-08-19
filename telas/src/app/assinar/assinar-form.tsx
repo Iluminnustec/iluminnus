@@ -9,10 +9,10 @@ import { PasswordInput } from "@/components/password-input";
 const initialState: AssinarState = {};
 
 export function AssinarForm({
-  ref: codigoRef,
+  codigoRef,
   indicadorNome,
 }: {
-  ref?: string;
+  codigoRef?: string;
   indicadorNome?: string | null;
 }) {
   const [state, formAction, pending] = useActionState(criarContaTelas, initialState);
