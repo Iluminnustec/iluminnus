@@ -48,7 +48,7 @@ export function NovaVendaForm({
             const vendedorDoCliente = clienteMap[novoClienteId];
             if (vendedorDoCliente) setVendedorId(vendedorDoCliente);
           }}
-          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         >
           <option value="" disabled>
             Selecione um cliente
@@ -71,7 +71,7 @@ export function NovaVendaForm({
           required
           value={vendedorId}
           onChange={(e) => setVendedorId(e.target.value)}
-          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         >
           <option value="" disabled>
             Selecione o vendedor
@@ -95,7 +95,7 @@ export function NovaVendaForm({
           type="date"
           required
           defaultValue={new Date().toISOString().slice(0, 10)}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
         <p className="mt-1 text-xs text-slate-400">Define em qual mês essa venda entra na comissão.</p>
       </div>
@@ -111,7 +111,7 @@ export function NovaVendaForm({
           step="0.01"
           min="0"
           required
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -122,7 +122,7 @@ export function NovaVendaForm({
         <input
           id="observacoes"
           name="observacoes"
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -130,7 +130,7 @@ export function NovaVendaForm({
         <button
           type="submit"
           disabled={pending}
-          className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+          className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
         >
           {pending ? "Registrando..." : "Registrar venda"}
         </button>

@@ -31,7 +31,7 @@ export function UserMenu({ nome, email, onLogout, senhaHref = "/painel/senha" }:
       <button
         type="button"
         onClick={() => setAberto((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-brivox-bronze text-sm font-semibold text-white hover:brightness-110"
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-telas-bronze text-sm font-semibold text-white hover:brightness-110"
         aria-label="Menu da conta"
       >
         {inicial}

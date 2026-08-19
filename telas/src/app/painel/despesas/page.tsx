@@ -59,7 +59,7 @@ export default async function DespesasPage() {
         </div>
         <Link
           href="/painel/despesas/novo"
-          className="rounded-md bg-brivox-navy px-4 py-2 text-sm font-medium text-white hover:bg-brivox-navy-light"
+          className="rounded-md bg-telas-navy px-4 py-2 text-sm font-medium text-white hover:bg-telas-navy-light"
         >
           Nova despesa
         </Link>
@@ -124,10 +124,10 @@ export default async function DespesasPage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/painel/despesas/${despesa.id}`}
-                    className="group font-medium text-slate-900 hover:text-brivox-navy-light"
+                    className="group font-medium text-slate-900 hover:text-telas-navy-light"
                   >
                     {despesa.descricao}
-                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-brivox-navy-light" />
+                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-telas-navy-light" />
                   </Link>
                   {despesa.pagoPorSocio && (
                     <span

@@ -38,7 +38,7 @@ export function VersionChecker({ className = "" }: { className?: string }) {
     <button
       type="button"
       onClick={() => window.location.reload()}
-      className={`rounded bg-brivox-bronze px-2 py-0.5 text-[10px] font-semibold text-white hover:brightness-110 ${className}`}
+      className={`rounded bg-telas-bronze px-2 py-0.5 text-[10px] font-semibold text-white hover:brightness-110 ${className}`}
     >
       Nova versão · Atualizar
     </button>

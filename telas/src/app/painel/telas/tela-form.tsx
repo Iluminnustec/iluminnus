@@ -39,7 +39,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
             required
             defaultValue={defaultValues?.nome}
             placeholder="Ex: Elevador social 1"
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -52,7 +52,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
             name="predioId"
             required
             defaultValue={defaultValues?.predioId ?? ""}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="" disabled>
               Selecione um prédio
@@ -75,7 +75,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
             id="tipo"
             name="tipo"
             defaultValue={defaultValues?.tipo ?? "TV_ELEVADOR"}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="TV_ELEVADOR">TV no elevador</option>
             <option value="TOTEM_HALL">Totem no hall</option>
@@ -92,7 +92,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
             id="status"
             name="status"
             defaultValue={defaultValues?.status ?? "ATIVA"}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="ATIVA">Ativa</option>
             <option value="INATIVA">Inativa</option>
@@ -109,7 +109,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
           id="rotacao"
           name="rotacao"
           defaultValue={defaultValues?.rotacao ?? 0}
-          className="mt-1 w-full max-w-xs rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full max-w-xs rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         >
           <option value={0}>0° (paisagem normal)</option>
           <option value={90}>90°</option>
@@ -132,7 +132,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
           min="0"
           step="0.01"
           defaultValue={defaultValues?.precoBase ?? 110}
-          className="mt-1 w-full max-w-xs rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full max-w-xs rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
         <p className="mt-1 text-xs text-slate-400">
           Preço com a tela vazia. Sobe automaticamente conforme mais clientes anunciam nela (até 30).
@@ -147,7 +147,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
           id="especificacoes"
           name="especificacoes"
           defaultValue={defaultValues?.especificacoes ?? ""}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -160,7 +160,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
           name="observacoes"
           rows={3}
           defaultValue={defaultValues?.observacoes ?? ""}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -169,7 +169,7 @@ export function TelaForm({ action, predios, defaultValues, submitLabel }: TelaFo
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+        className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
       >
         {pending ? "Salvando..." : submitLabel}
       </button>

@@ -216,7 +216,7 @@ export default async function DashboardPage({
           <Link
             key={card.label}
             href={card.href}
-            className="rounded-lg border border-slate-200 bg-white p-5 hover:border-brivox-blue hover:shadow-sm"
+            className="rounded-lg border border-slate-200 bg-white p-5 hover:border-telas-blue hover:shadow-sm"
           >
             <p className="text-sm text-slate-500">{card.label}</p>
             <p
@@ -238,7 +238,7 @@ export default async function DashboardPage({
           <Link
             key={card.label}
             href={card.href}
-            className="rounded-lg border border-slate-200 bg-white p-5 hover:border-brivox-blue hover:shadow-sm"
+            className="rounded-lg border border-slate-200 bg-white p-5 hover:border-telas-blue hover:shadow-sm"
           >
             <p className="text-sm text-slate-500">{card.label}</p>
             <p

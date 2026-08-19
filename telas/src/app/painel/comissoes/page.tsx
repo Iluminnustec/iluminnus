@@ -147,7 +147,7 @@ export default async function ComissoesPage() {
                   </p>
                   <p className="text-sm text-slate-500">
                     {formatBRL(totalVendido)} vendidos · faixa {preview.label} ·{" "}
-                    <span className="font-medium text-brivox-navy">
+                    <span className="font-medium text-telas-navy">
                       {formatBRL(preview.valorComissao)} de comissão
                     </span>
                   </p>
@@ -155,7 +155,7 @@ export default async function ComissoesPage() {
                 <form action={fecharComissaoDoMes.bind(null, grupo.vendedorId, grupo.mes.toISOString())}>
                   <button
                     type="submit"
-                    className="rounded-md bg-brivox-navy px-4 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light"
+                    className="rounded-md bg-telas-navy px-4 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light"
                   >
                     Fechar comissão do mês
                   </button>

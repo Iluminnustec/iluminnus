@@ -34,7 +34,7 @@ const formatos = [
 export default function HomePage() {
   return (
     <div>
-      <section className="relative overflow-hidden bg-brivox-navy text-white">
+      <section className="relative overflow-hidden bg-telas-navy text-white">
         {/* Gradiente escuro (canto superior esquerdo) para azul mais vivo (inferior direito) */}
         <div
           aria-hidden="true"
@@ -77,7 +77,7 @@ export default function HomePage() {
             <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">
               Sua marca em movimento,
               <br />
-              <span className="text-brivox-bronze">o tempo todo.</span>
+              <span className="text-telas-bronze">o tempo todo.</span>
             </h1>
             <p className="mt-6 max-w-xl text-lg text-slate-300">
               Mídia indoor que aproxima, informa e gera resultados — em
@@ -88,7 +88,7 @@ export default function HomePage() {
                 href={WHATSAPP_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md bg-brivox-bronze px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brivox-bronze/20 hover:brightness-110"
+                className="rounded-md bg-telas-bronze px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-telas-bronze/20 hover:brightness-110"
               >
                 Fale conosco
               </a>
@@ -117,7 +117,7 @@ export default function HomePage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brivox-blue">
+        <p className="font-mono text-xs font-semibold uppercase tracking-widest text-telas-blue">
           Vantagens
         </p>
         <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
@@ -129,14 +129,14 @@ export default function HomePage() {
             return (
               <div
                 key={item.title}
-                className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-brivox-blue/40 hover:shadow-lg hover:shadow-brivox-blue/10"
+                className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-telas-blue/40 hover:shadow-lg hover:shadow-telas-blue/10"
               >
                 <div
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-brivox-blue to-brivox-bronze transition-transform duration-300 group-hover:scale-x-100"
+                  className="absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-gradient-to-r from-telas-blue to-telas-bronze transition-transform duration-300 group-hover:scale-x-100"
                 />
                 <div className="flex items-center justify-between">
-                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brivox-navy text-brivox-blue transition-colors group-hover:text-white">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-telas-navy text-telas-blue transition-colors group-hover:text-white">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <span className="font-mono text-xs text-slate-300">
@@ -163,7 +163,7 @@ export default function HomePage() {
           }}
         />
         <div className="relative mx-auto max-w-6xl px-6 py-20">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brivox-blue">
+          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-telas-blue">
             Formatos
           </p>
           <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
@@ -175,12 +175,12 @@ export default function HomePage() {
               return (
                 <div
                   key={item.title}
-                  className="group flex flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-brivox-blue/10"
+                  className="group flex flex-col rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-telas-blue/10"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brivox-navy text-brivox-blue transition-colors group-hover:text-white">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-telas-navy text-telas-blue transition-colors group-hover:text-white">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
-                  <span className="mt-4 inline-block w-fit rounded-full bg-brivox-blue/10 px-2.5 py-0.5 font-mono text-[11px] font-medium text-brivox-blue">
+                  <span className="mt-4 inline-block w-fit rounded-full bg-telas-blue/10 px-2.5 py-0.5 font-mono text-[11px] font-medium text-telas-blue">
                     {item.spec}
                   </span>
                   <h3 className="mt-3 font-semibold text-slate-900">{item.title}</h3>
@@ -202,7 +202,7 @@ export default function HomePage() {
         </p>
         <Link
           href="/planos"
-          className="mt-8 inline-block rounded-md bg-brivox-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brivox-navy-light"
+          className="mt-8 inline-block rounded-md bg-telas-navy px-6 py-3 text-sm font-semibold text-white hover:bg-telas-navy-light"
         >
           Ver planos e preços
         </Link>

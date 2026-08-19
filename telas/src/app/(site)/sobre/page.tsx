@@ -30,9 +30,9 @@ const valores = [
 export default function SobrePage() {
   return (
     <div>
-      <section className="bg-brivox-navy text-white">
+      <section className="bg-telas-navy text-white">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brivox-bronze">
+          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-telas-bronze">
             Sobre a Telas
           </p>
           <h1 className="mt-4 text-3xl font-bold sm:text-4xl">
@@ -57,7 +57,7 @@ export default function SobrePage() {
                 key={item.label}
                 className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brivox-navy text-brivox-blue">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-telas-navy text-telas-blue">
                   <Icon className="h-5 w-5" strokeWidth={1.75} />
                 </span>
                 <div>
@@ -86,9 +86,9 @@ export default function SobrePage() {
               return (
                 <div
                   key={item.title}
-                  className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-brivox-blue/10"
+                  className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-telas-blue/10"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brivox-navy text-brivox-blue">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-telas-navy text-telas-blue">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <h3 className="mt-4 font-semibold text-slate-900">{item.title}</h3>

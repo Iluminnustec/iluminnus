@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Telas | Presença que conecta. Impacto que fica.",
   description:
-    "Telas gerencia mídia indoor em telas físicas — da rede Brivox e de outros donos que assinam a plataforma — conectando marcas ao seu público em ambientes de alto fluxo.",
+    "Telas gerencia mídia indoor em telas físicas — da rede Telas e de outros donos que assinam a plataforma — conectando marcas ao seu público em ambientes de alto fluxo.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

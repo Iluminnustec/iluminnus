@@ -39,7 +39,7 @@ export default function LoginPage() {
               name="email"
               type="email"
               required
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
             />
           </div>
 
@@ -51,7 +51,7 @@ export default function LoginPage() {
               id="senha"
               name="senha"
               required
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
             />
           </div>
 
@@ -62,7 +62,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={pending}
-            className="w-full rounded-md bg-brivox-navy px-4 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+            className="w-full rounded-md bg-telas-navy px-4 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
           >
             {pending ? "Entrando..." : "Entrar"}
           </button>
@@ -70,7 +70,7 @@ export default function LoginPage() {
 
         <p className="mt-4 text-center text-sm text-slate-500">
           Ainda não tem conta?{" "}
-          <Link href="/assinar" className="font-medium text-brivox-blue hover:underline">
+          <Link href="/assinar" className="font-medium text-telas-blue hover:underline">
             Assine o Telas
           </Link>
         </p>

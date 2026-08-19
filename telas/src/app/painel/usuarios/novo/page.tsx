@@ -22,7 +22,7 @@ export default function NovoUsuarioPage() {
             id="nome"
             name="nome"
             required
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -35,7 +35,7 @@ export default function NovoUsuarioPage() {
             name="email"
             type="email"
             required
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -47,7 +47,7 @@ export default function NovoUsuarioPage() {
             id="cargo"
             name="cargo"
             defaultValue="SUPERVISOR"
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="ADMIN">Administrador — acesso total</option>
             <option value="SOCIO">Sócio — tudo, menos usuários e atividades</option>
@@ -65,7 +65,7 @@ export default function NovoUsuarioPage() {
             name="senha"
             required
             minLength={8}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
           <p className="mt-1 text-xs text-slate-500">
             Mínimo de 8 caracteres. Combine com a pessoa e recomende trocar no primeiro acesso.
@@ -77,7 +77,7 @@ export default function NovoUsuarioPage() {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+          className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
         >
           {pending ? "Criando..." : "Criar usuário"}
         </button>

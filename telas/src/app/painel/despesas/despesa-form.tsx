@@ -55,7 +55,7 @@ export function DespesaForm({
           required
           defaultValue={defaultValues?.descricao}
           placeholder="Ex: Totem vertical 55&quot; - 5 unidades"
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -68,7 +68,7 @@ export function DespesaForm({
             id="categoria"
             name="categoria"
             defaultValue={defaultValues?.categoria ?? "EQUIPAMENTO"}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="EQUIPAMENTO">Equipamento</option>
             <option value="ESTOQUE">Estoque</option>
@@ -89,7 +89,7 @@ export function DespesaForm({
             id="fornecedor"
             name="fornecedor"
             defaultValue={defaultValues?.fornecedor ?? ""}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
       </div>
@@ -107,7 +107,7 @@ export function DespesaForm({
             min="0"
             required
             defaultValue={defaultValues?.valorTotal}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -121,7 +121,7 @@ export function DespesaForm({
             type="date"
             required
             defaultValue={toDateInputValue(defaultValues?.dataCompra) || new Date().toISOString().slice(0, 10)}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
       </div>
@@ -136,7 +136,7 @@ export function DespesaForm({
             name="formaPagamento"
             value={formaPagamento}
             onChange={(e) => setFormaPagamento(e.target.value)}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="A_VISTA">À vista</option>
             <option value="CARTAO_CREDITO">Cartão de crédito</option>
@@ -157,7 +157,7 @@ export function DespesaForm({
             min="1"
             max="48"
             defaultValue={defaultValues?.numeroParcelas ?? 1}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
       </div>
@@ -171,7 +171,7 @@ export function DespesaForm({
             id="faturarMesSeguinte"
             name="faturarMesSeguinte"
             defaultValue={defaultValues?.faturarMesSeguinte ? "SEGUINTE" : "ATUAL"}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="ATUAL">Este mês (fatura já fechando)</option>
             <option value="SEGUINTE">Mês seguinte (fatura já fechou)</option>
@@ -199,7 +199,7 @@ export function DespesaForm({
           id="pagoPorSocioId"
           name="pagoPorSocioId"
           defaultValue={defaultValues?.pagoPorSocioId ?? ""}
-          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         >
           <option value="">Caixa da empresa</option>
           {usuarios.map((usuario) => (
@@ -224,7 +224,7 @@ export function DespesaForm({
           name="observacoes"
           rows={3}
           defaultValue={defaultValues?.observacoes ?? ""}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -233,7 +233,7 @@ export function DespesaForm({
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+        className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
       >
         {pending ? "Salvando..." : submitLabel}
       </button>

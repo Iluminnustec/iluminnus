@@ -6,8 +6,8 @@ import type { Cargo } from "@/lib/rbac";
 export type { Cargo } from "@/lib/rbac";
 export { podeAcessar, rotaInicial, ROTAS_POR_CARGO, CARGO_LABELS } from "@/lib/rbac";
 
-const SESSION_COOKIE = "brivox_session";
-const secretKey = process.env.SESSION_SECRET ?? "brivox-dev-secret-troque-em-producao";
+const SESSION_COOKIE = "telas_session";
+const secretKey = process.env.SESSION_SECRET ?? "telas-dev-secret-troque-em-producao";
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export type SessionPayload = {

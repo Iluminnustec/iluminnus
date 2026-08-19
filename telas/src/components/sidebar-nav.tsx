@@ -98,7 +98,7 @@ export function SidebarNav({ cargo }: { cargo: Cargo }) {
                   href={item.href}
                   className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                     ativo
-                      ? "bg-brivox-bronze/15 text-brivox-bronze"
+                      ? "bg-telas-bronze/15 text-telas-bronze"
                       : "text-slate-300 hover:bg-white/5 hover:text-white"
                   }`}
                 >

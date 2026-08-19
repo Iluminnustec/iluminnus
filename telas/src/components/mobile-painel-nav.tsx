@@ -41,7 +41,7 @@ export function MobilePainelNav({ cargo }: { cargo: Cargo }) {
             className="absolute inset-0 bg-black/40"
             onClick={() => setOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 flex w-64 flex-col overflow-y-auto bg-brivox-navy pb-6 shadow-xl">
+          <div className="absolute inset-y-0 left-0 flex w-64 flex-col overflow-y-auto bg-telas-navy pb-6 shadow-xl">
             <div className="flex items-center justify-between px-5 py-5">
               <div className="flex items-center gap-2">
                 <Image

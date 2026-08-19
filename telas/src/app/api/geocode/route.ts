@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const HEADERS = {
-  "User-Agent": "BrivoxMidiaPainel/1.0 (uso interno, joao pessoa)",
+  "User-Agent": "TelasPainel/1.0 (uso interno)",
 };
 
 async function buscar(q: string) {

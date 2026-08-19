@@ -53,12 +53,12 @@ export default async function TelasPage() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Telas</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Pontos de mídia indoor instalados nos prédios da rede Brivox.
+            Pontos de mídia indoor instalados nos prédios da rede Telas.
           </p>
         </div>
         <Link
           href="/painel/telas/novo"
-          className="rounded-md bg-brivox-navy px-4 py-2 text-sm font-medium text-white hover:bg-brivox-navy-light"
+          className="rounded-md bg-telas-navy px-4 py-2 text-sm font-medium text-white hover:bg-telas-navy-light"
         >
           Nova tela
         </Link>
@@ -111,14 +111,14 @@ export default async function TelasPage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/painel/telas/${tela.id}`}
-                    className="group font-medium text-slate-900 hover:text-brivox-navy-light"
+                    className="group font-medium text-slate-900 hover:text-telas-navy-light"
                   >
                     {tela.nome}
-                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-brivox-navy-light" />
+                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-telas-navy-light" />
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-slate-600">
-                  <Link href={`/painel/predios/${tela.predio.id}`} className="hover:text-brivox-navy-light">
+                  <Link href={`/painel/predios/${tela.predio.id}`} className="hover:text-telas-navy-light">
                     {tela.predio.nome}
                   </Link>
                 </td>

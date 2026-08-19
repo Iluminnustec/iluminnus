@@ -37,7 +37,7 @@ export function PeriodFilter() {
 
   return (
     <div className="relative">
-      <div className="inline-flex items-center gap-1 rounded-full bg-brivox-navy p-1 text-sm">
+      <div className="inline-flex items-center gap-1 rounded-full bg-telas-navy p-1 text-sm">
         {OPCOES.map((o) => (
           <button
             key={o.value}
@@ -45,7 +45,7 @@ export function PeriodFilter() {
             onClick={() => selecionar(o.value)}
             className={`rounded-full px-3 py-1.5 font-medium transition ${
               periodoAtual === o.value
-                ? "bg-brivox-bronze text-white"
+                ? "bg-telas-bronze text-white"
                 : "text-slate-300 hover:text-white"
             }`}
           >
@@ -57,7 +57,7 @@ export function PeriodFilter() {
           onClick={() => selecionar("personalizado")}
           className={`rounded-full px-3 py-1.5 font-medium transition ${
             periodoAtual === "personalizado"
-              ? "bg-brivox-bronze text-white"
+              ? "bg-telas-bronze text-white"
               : "text-slate-300 hover:text-white"
           }`}
         >
@@ -84,7 +84,7 @@ export function PeriodFilter() {
             type="button"
             onClick={aplicarPersonalizado}
             disabled={!inicio || !fim}
-            className="rounded bg-brivox-navy px-3 py-1.5 text-sm font-medium text-white disabled:opacity-40"
+            className="rounded bg-telas-navy px-3 py-1.5 text-sm font-medium text-white disabled:opacity-40"
           >
             Aplicar
           </button>

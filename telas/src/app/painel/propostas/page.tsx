@@ -80,7 +80,7 @@ export default async function PropostasPage() {
                   <form action={aprovarProposta.bind(null, proposta.id)}>
                     <button
                       type="submit"
-                      className="rounded-md bg-brivox-navy px-3 py-1.5 text-xs font-medium text-white hover:bg-brivox-navy-light"
+                      className="rounded-md bg-telas-navy px-3 py-1.5 text-xs font-medium text-white hover:bg-telas-navy-light"
                     >
                       Aprovar
                     </button>

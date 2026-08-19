@@ -56,7 +56,7 @@ export function DispositivoRowForm({
         <button
           type="submit"
           disabled={pending}
-          className="rounded border border-brivox-navy bg-brivox-navy px-3 py-1 text-xs font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+          className="rounded border border-telas-navy bg-telas-navy px-3 py-1 text-xs font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
         >
           {pending ? "Salvando..." : "Salvar"}
         </button>

@@ -4,12 +4,12 @@
   --background: #ffffff;
   --foreground: #171717;
 
-  --color-brivox-navy: #00264d;
-  --color-brivox-navy-light: #003366;
-  --color-brivox-blue: #4169e1;
-  --color-brivox-bronze: #cd7f32;
-  --color-brivox-tan: #b8860b;
-  --color-brivox-charcoal: #333333;
+  --color-telas-navy: #00264d;
+  --color-telas-navy-light: #003366;
+  --color-telas-blue: #4169e1;
+  --color-telas-bronze: #cd7f32;
+  --color-telas-tan: #b8860b;
+  --color-telas-charcoal: #333333;
 
   /* Área /admin (staff da Iluminnus, não de um dono) usa a marca da
      Iluminnus em vez da marca do dono, pra deixar claro visualmente que é
@@ -26,12 +26,12 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --color-brivox-navy: var(--color-brivox-navy);
-  --color-brivox-navy-light: var(--color-brivox-navy-light);
-  --color-brivox-blue: var(--color-brivox-blue);
-  --color-brivox-bronze: var(--color-brivox-bronze);
-  --color-brivox-tan: var(--color-brivox-tan);
-  --color-brivox-charcoal: var(--color-brivox-charcoal);
+  --color-telas-navy: var(--color-telas-navy);
+  --color-telas-navy-light: var(--color-telas-navy-light);
+  --color-telas-blue: var(--color-telas-blue);
+  --color-telas-bronze: var(--color-telas-bronze);
+  --color-telas-tan: var(--color-telas-tan);
+  --color-telas-charcoal: var(--color-telas-charcoal);
 
   --color-iluminnus-navy: var(--color-iluminnus-navy);
   --color-iluminnus-navy-light: var(--color-iluminnus-navy-light);

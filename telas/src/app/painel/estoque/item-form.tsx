@@ -44,7 +44,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
             required
             defaultValue={defaultValues?.nome}
             placeholder='Ex: Totem vertical 55"'
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -57,7 +57,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
             name="categoria"
             defaultValue={defaultValues?.categoria ?? ""}
             placeholder="Ex: Totem, Player, Suporte"
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
       </div>
@@ -74,7 +74,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
               type="number"
               min="0"
               defaultValue={defaultValues?.quantidade ?? 1}
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
             />
           </div>
         )}
@@ -90,7 +90,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
             step="0.01"
             min="0"
             defaultValue={defaultValues?.valorUnitario ?? ""}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -103,7 +103,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
             name="dataEntrada"
             type="date"
             defaultValue={toDateInputValue(defaultValues?.dataEntrada)}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
       </div>
@@ -117,7 +117,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
             id="fornecedor"
             name="fornecedor"
             defaultValue={defaultValues?.fornecedor ?? ""}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -129,7 +129,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
             id="status"
             name="status"
             defaultValue={defaultValues?.status ?? "DISPONIVEL"}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="DISPONIVEL">Disponível</option>
             <option value="EM_USO">Em uso</option>
@@ -148,7 +148,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
           name="observacoes"
           rows={3}
           defaultValue={defaultValues?.observacoes ?? ""}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -157,7 +157,7 @@ export function ItemForm({ action, defaultValues, submitLabel, isEdit }: ItemFor
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+        className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
       >
         {pending ? "Salvando..." : submitLabel}
       </button>

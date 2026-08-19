@@ -2,8 +2,8 @@ import "server-only";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const SESSION_COOKIE = "brivox_cliente_session";
-const secretKey = process.env.SESSION_SECRET ?? "brivox-dev-secret-troque-em-producao";
+const SESSION_COOKIE = "telas_cliente_session";
+const secretKey = process.env.SESSION_SECRET ?? "telas-dev-secret-troque-em-producao";
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export type ClienteSessionPayload = {

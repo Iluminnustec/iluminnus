@@ -28,7 +28,7 @@ export function TelaCheckboxList({
             name="telaIds"
             value={tela.id}
             defaultChecked={defaultSelectedIds.includes(tela.id)}
-            className="h-4 w-4 shrink-0 accent-brivox-navy"
+            className="h-4 w-4 shrink-0 accent-telas-navy"
           />
           <span className="truncate">
             {tela.predio.nome} — {tela.nome}

@@ -38,10 +38,10 @@ export default async function AreaClienteLayout({
           </Link>
 
           <nav className="flex items-center gap-5 text-sm font-medium text-slate-600">
-            <Link href="/cliente/plano" className="hover:text-brivox-navy-light">
+            <Link href="/cliente/plano" className="hover:text-telas-navy-light">
               Montar plano
             </Link>
-            <Link href="/cliente/propostas" className="hover:text-brivox-navy-light">
+            <Link href="/cliente/propostas" className="hover:text-telas-navy-light">
               Minhas propostas
             </Link>
             <span className="hidden text-slate-300 sm:inline">|</span>

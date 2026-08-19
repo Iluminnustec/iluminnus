@@ -47,7 +47,7 @@ export default async function EditarPredioPage({
           </h2>
           <Link
             href="/painel/estoque"
-            className="text-sm font-medium text-brivox-navy-light hover:underline"
+            className="text-sm font-medium text-telas-navy-light hover:underline"
           >
             Instalar tela do estoque →
           </Link>
@@ -72,7 +72,7 @@ export default async function EditarPredioPage({
                   <td className="px-4 py-3">
                     <Link
                       href={`/painel/telas/${tela.id}`}
-                      className="font-medium text-slate-900 hover:text-brivox-navy-light"
+                      className="font-medium text-slate-900 hover:text-telas-navy-light"
                     >
                       {tela.nome}
                     </Link>

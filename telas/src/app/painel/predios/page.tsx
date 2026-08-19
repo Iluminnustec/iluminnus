@@ -17,12 +17,12 @@ export default async function PrediosPage() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Prédios</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Empreendimentos mapeados onde a Brivox instala telas.
+            Empreendimentos mapeados onde a Telas instala telas.
           </p>
         </div>
         <Link
           href="/painel/predios/novo"
-          className="rounded-md bg-brivox-navy px-4 py-2 text-sm font-medium text-white hover:bg-brivox-navy-light"
+          className="rounded-md bg-telas-navy px-4 py-2 text-sm font-medium text-white hover:bg-telas-navy-light"
         >
           Novo prédio
         </Link>
@@ -44,10 +44,10 @@ export default async function PrediosPage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/painel/predios/${predio.id}`}
-                    className="group font-medium text-slate-900 hover:text-brivox-navy-light"
+                    className="group font-medium text-slate-900 hover:text-telas-navy-light"
                   >
                     {predio.nome}
-                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-brivox-navy-light" />
+                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-telas-navy-light" />
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-slate-600">{predio.bairro || "—"}</td>

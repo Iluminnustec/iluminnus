@@ -23,13 +23,13 @@ export function SiteHeader() {
             priority
           />
           <span className="text-lg font-semibold tracking-tight text-slate-900">
-            <span className="text-brivox-bronze">Telas</span>
+            <span className="text-telas-bronze">Telas</span>
           </span>
         </Link>
 
         <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 sm:flex">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className="hover:text-brivox-navy-light">
+            <Link key={link.href} href={link.href} className="hover:text-telas-navy-light">
               {link.label}
             </Link>
           ))}
@@ -40,13 +40,13 @@ export function SiteHeader() {
             href={WHATSAPP_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden rounded-md bg-brivox-bronze px-4 py-2 text-sm font-semibold text-white hover:brightness-110 sm:inline-block"
+            className="hidden rounded-md bg-telas-bronze px-4 py-2 text-sm font-semibold text-white hover:brightness-110 sm:inline-block"
           >
             Fale conosco
           </a>
           <Link
             href="/cliente/login"
-            className="rounded-md bg-brivox-navy px-4 py-2 text-sm font-medium text-white hover:bg-brivox-navy-light"
+            className="rounded-md bg-telas-navy px-4 py-2 text-sm font-medium text-white hover:bg-telas-navy-light"
           >
             Área do cliente
           </Link>

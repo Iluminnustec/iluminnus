@@ -22,18 +22,21 @@ const SUPER_ADMINS = [
   },
 ];
 
-const EMPRESA_BRIVOX = {
-  nome: "Brivox Mídia",
-  slug: "brivox-midia",
-  dominio: "brivoxmidia.com.br",
+// Empresa de exemplo criada só se o banco ainda não tiver nenhuma — não
+// recria nem renomeia a empresa real já cadastrada em produção (o seed é
+// idempotente, ver checagem por slug abaixo).
+const EMPRESA_EXEMPLO = {
+  nome: "Empresa Piloto",
+  slug: "empresa-piloto",
+  dominio: null,
   cidade: "João Pessoa",
   estado: "PB",
 };
 
-const USUARIOS_BRIVOX = [
-  { nome: "Administrador Brivox", email: "admin@brivoxmidia.com.br", senha: "brivox2026", cargo: "ADMIN" as const },
-  { nome: "Supervisor Brivox", email: "supervisor@brivoxmidia.com.br", senha: "supervisor2026", cargo: "SUPERVISOR" as const },
-  { nome: "Vendas Brivox", email: "vendas@brivoxmidia.com.br", senha: "vendas2026", cargo: "VENDAS" as const },
+const USUARIOS_EXEMPLO = [
+  { nome: "Administrador Piloto", email: "admin@empresa-piloto.com.br", senha: "trocar-no-primeiro-acesso-2026", cargo: "ADMIN" as const },
+  { nome: "Supervisor Piloto", email: "supervisor@empresa-piloto.com.br", senha: "trocar-no-primeiro-acesso-2026", cargo: "SUPERVISOR" as const },
+  { nome: "Vendas Piloto", email: "vendas@empresa-piloto.com.br", senha: "trocar-no-primeiro-acesso-2026", cargo: "VENDAS" as const },
 ];
 
 async function main() {
@@ -51,12 +54,12 @@ async function main() {
     console.log(`Super-admin criado: ${u.email} / senha: ${u.senha}`);
   }
 
-  // Brivox Mídia é o primeiro dono cadastrado no sistema — mesma empresa que
-  // originou o produto, agora rodando como um tenant normal.
-  let empresa = await prisma.empresa.findUnique({ where: { slug: EMPRESA_BRIVOX.slug } });
+  // Empresa de exemplo — só criada se o banco ainda não tiver nenhuma com
+  // esse slug. Não mexe em nenhum dono real já cadastrado.
+  let empresa = await prisma.empresa.findUnique({ where: { slug: EMPRESA_EXEMPLO.slug } });
   if (!empresa) {
     empresa = await prisma.empresa.create({
-      data: { ...EMPRESA_BRIVOX, licenca: gerarLicenca() },
+      data: { ...EMPRESA_EXEMPLO, licenca: gerarLicenca() },
     });
     console.log(`Empresa criada: ${empresa.nome} (${empresa.slug})`);
 
@@ -73,12 +76,12 @@ async function main() {
         proximoVencimento,
       },
     });
-    console.log("Assinatura criada para Brivox Mídia (valorMensal é placeholder, ajustar).");
+    console.log(`Assinatura criada para ${empresa.nome} (valorMensal é placeholder, ajustar).`);
   } else {
     console.log(`Empresa ${empresa.slug} já existe, pulando.`);
   }
 
-  for (const u of USUARIOS_BRIVOX) {
+  for (const u of USUARIOS_EXEMPLO) {
     const existente = await prisma.usuario.findUnique({ where: { email: u.email } });
     if (existente) {
       console.log(`Usuário ${u.email} já existe, pulando.`);

@@ -32,7 +32,7 @@ export default async function PainelLayout({
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50">
-      <aside className="hidden w-64 shrink-0 flex-col bg-brivox-navy sm:flex">
+      <aside className="hidden w-64 shrink-0 flex-col bg-telas-navy sm:flex">
         <div className="flex items-center gap-2 px-5 py-5">
           <Image
             src="/brand/telas-icon.png"

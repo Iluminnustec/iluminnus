@@ -3,7 +3,7 @@ import { WHATSAPP_DISPLAY, WHATSAPP_LINK } from "@/lib/brand";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-auto border-t border-slate-800 bg-brivox-navy">
+    <footer className="mt-auto border-t border-slate-800 bg-telas-navy">
       <div className="mx-auto max-w-6xl px-6 py-12 text-sm text-slate-300">
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div className="flex items-center gap-2">
@@ -22,7 +22,7 @@ export function SiteFooter() {
           <div className="space-y-1">
             <p>
               WhatsApp:{" "}
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="text-brivox-bronze hover:underline">
+              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="text-telas-bronze hover:underline">
                 {WHATSAPP_DISPLAY}
               </a>
             </p>

@@ -30,7 +30,7 @@ export function InstalarForm({
             name="predioId"
             required
             defaultValue=""
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="" disabled>
               Selecione um prédio
@@ -51,7 +51,7 @@ export function InstalarForm({
             id="instalarTipo"
             name="tipo"
             defaultValue="TV_ELEVADOR"
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="TV_ELEVADOR">TV no elevador</option>
             <option value="TOTEM_HALL">Totem no hall</option>
@@ -70,7 +70,7 @@ export function InstalarForm({
           name="nome"
           required
           defaultValue={itemNome}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -79,7 +79,7 @@ export function InstalarForm({
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-bronze px-5 py-2 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60"
+        className="rounded-md bg-telas-bronze px-5 py-2 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-60"
       >
         {pending ? "Instalando..." : "Instalar tela neste prédio"}
       </button>

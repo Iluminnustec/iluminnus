@@ -39,7 +39,7 @@ export default function CadastroClientePage() {
               id="nome"
               name="nome"
               required
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
             />
           </div>
 
@@ -52,7 +52,7 @@ export default function CadastroClientePage() {
               name="email"
               type="email"
               required
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
             />
           </div>
 
@@ -64,7 +64,7 @@ export default function CadastroClientePage() {
               <input
                 id="telefone"
                 name="telefone"
-                className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+                className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
               />
             </div>
             <div>
@@ -75,7 +75,7 @@ export default function CadastroClientePage() {
                 id="cidade"
                 name="cidade"
                 defaultValue="João Pessoa"
-                className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+                className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
               />
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function CadastroClientePage() {
               name="senha"
               required
               minLength={8}
-              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+              className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
             />
             <p className="mt-1 text-xs text-slate-400">Pelo menos 8 caracteres.</p>
           </div>
@@ -99,7 +99,7 @@ export default function CadastroClientePage() {
           <button
             type="submit"
             disabled={pending}
-            className="w-full rounded-md bg-brivox-navy px-4 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+            className="w-full rounded-md bg-telas-navy px-4 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
           >
             {pending ? "Criando conta..." : "Criar conta"}
           </button>
@@ -107,7 +107,7 @@ export default function CadastroClientePage() {
 
         <p className="mt-4 text-center text-sm text-slate-500">
           Já tem conta?{" "}
-          <Link href="/cliente/login" className="font-medium text-brivox-blue hover:underline">
+          <Link href="/cliente/login" className="font-medium text-telas-blue hover:underline">
             Entrar
           </Link>
         </p>

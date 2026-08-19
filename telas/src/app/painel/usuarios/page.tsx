@@ -22,7 +22,7 @@ export default async function UsuariosPage() {
         </div>
         <Link
           href="/painel/usuarios/novo"
-          className="rounded-md bg-brivox-navy px-4 py-2 text-sm font-medium text-white hover:bg-brivox-navy-light"
+          className="rounded-md bg-telas-navy px-4 py-2 text-sm font-medium text-white hover:bg-telas-navy-light"
         >
           Novo usuário
         </Link>
@@ -44,10 +44,10 @@ export default async function UsuariosPage() {
                 <td className="px-4 py-3">
                   <Link
                     href={`/painel/usuarios/${usuario.id}`}
-                    className="group font-medium text-slate-900 hover:text-brivox-navy-light"
+                    className="group font-medium text-slate-900 hover:text-telas-navy-light"
                   >
                     {usuario.nome}
-                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-brivox-navy-light" />
+                    <EditIcon className="ml-1.5 text-slate-300 group-hover:text-telas-navy-light" />
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-slate-600">{usuario.email}</td>

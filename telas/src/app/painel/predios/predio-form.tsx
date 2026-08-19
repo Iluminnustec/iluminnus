@@ -85,7 +85,7 @@ export function PredioForm({ action, defaultValues, submitLabel }: PredioFormPro
           type="button"
           onClick={buscarCoordenadas}
           disabled={buscando}
-          className="rounded-md border border-brivox-navy px-3 py-1.5 text-xs font-semibold text-brivox-navy hover:bg-brivox-navy hover:text-white disabled:opacity-60"
+          className="rounded-md border border-telas-navy px-3 py-1.5 text-xs font-semibold text-telas-navy hover:bg-telas-navy hover:text-white disabled:opacity-60"
         >
           {buscando ? "Buscando..." : "Buscar coordenadas pelo endereço"}
         </button>
@@ -121,7 +121,7 @@ export function PredioForm({ action, defaultValues, submitLabel }: PredioFormPro
           name="observacoes"
           defaultValue={defaultValues?.observacoes ?? ""}
           rows={3}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -130,7 +130,7 @@ export function PredioForm({ action, defaultValues, submitLabel }: PredioFormPro
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+        className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
       >
         {pending ? "Salvando..." : submitLabel}
       </button>
@@ -159,7 +159,7 @@ function Field({
         name={name}
         required={required}
         defaultValue={defaultValue}
-        className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+        className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
       />
     </div>
   );

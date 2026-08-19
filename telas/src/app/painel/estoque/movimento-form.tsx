@@ -21,7 +21,7 @@ export function MovimentoForm({ itemId }: { itemId: string }) {
             id="movTipo"
             name="tipo"
             defaultValue="ENTRADA"
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="ENTRADA">Entrada</option>
             <option value="SAIDA">Saída</option>
@@ -39,7 +39,7 @@ export function MovimentoForm({ itemId }: { itemId: string }) {
             min="1"
             required
             defaultValue={1}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -52,7 +52,7 @@ export function MovimentoForm({ itemId }: { itemId: string }) {
             name="data"
             type="date"
             defaultValue={new Date().toISOString().slice(0, 10)}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
       </div>
@@ -66,7 +66,7 @@ export function MovimentoForm({ itemId }: { itemId: string }) {
           name="motivo"
           required
           placeholder="Ex: Compra adicional, devolução, item danificado..."
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -75,7 +75,7 @@ export function MovimentoForm({ itemId }: { itemId: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+        className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
       >
         {pending ? "Registrando..." : "Registrar movimentação"}
       </button>

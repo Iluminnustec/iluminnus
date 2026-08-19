@@ -27,12 +27,12 @@ export function CriarTelasLoteForm({ predioId }: { predioId: string }) {
           type="text"
           name="nomes"
           placeholder="Ex: Social, Serviço"
-          className="rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
         <select
           name="tipo"
           defaultValue="TV_ELEVADOR"
-          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         >
           <option value="TV_ELEVADOR">TV no elevador</option>
           <option value="TOTEM_HALL">Totem no hall</option>
@@ -42,7 +42,7 @@ export function CriarTelasLoteForm({ predioId }: { predioId: string }) {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-md bg-brivox-navy px-4 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+          className="rounded-md bg-telas-navy px-4 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
         >
           {pending ? "Criando..." : "Criar telas"}
         </button>

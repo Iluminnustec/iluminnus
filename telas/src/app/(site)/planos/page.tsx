@@ -65,9 +65,9 @@ const condicoes = [
 export default function PlanosPage() {
   return (
     <div>
-      <section className="bg-brivox-navy text-white">
+      <section className="bg-telas-navy text-white">
         <div className="mx-auto max-w-6xl px-6 py-16 text-center">
-          <p className="text-sm font-semibold uppercase tracking-widest text-brivox-bronze">
+          <p className="text-sm font-semibold uppercase tracking-widest text-telas-bronze">
             Planos e preços
           </p>
           <h1 className="mt-4 text-3xl font-bold sm:text-4xl">
@@ -88,12 +88,12 @@ export default function PlanosPage() {
               key={plano.telas}
               className={`relative rounded-xl border p-6 transition-all hover:-translate-y-1 ${
                 plano.destaque
-                  ? "border-brivox-bronze bg-white shadow-lg ring-1 ring-brivox-bronze"
-                  : "border-slate-200 bg-white hover:shadow-lg hover:shadow-brivox-blue/10"
+                  ? "border-telas-bronze bg-white shadow-lg ring-1 ring-telas-bronze"
+                  : "border-slate-200 bg-white hover:shadow-lg hover:shadow-telas-blue/10"
               }`}
             >
               {plano.tag && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brivox-bronze px-3 py-1 text-xs font-semibold text-white">
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-telas-bronze px-3 py-1 text-xs font-semibold text-white">
                   ★ {plano.tag}
                 </span>
               )}
@@ -110,8 +110,8 @@ export default function PlanosPage() {
                 rel="noopener noreferrer"
                 className={`mt-6 block rounded-md px-4 py-2 text-center text-sm font-semibold ${
                   plano.destaque
-                    ? "bg-brivox-bronze text-white hover:brightness-110"
-                    : "bg-brivox-navy text-white hover:bg-brivox-navy-light"
+                    ? "bg-telas-bronze text-white hover:brightness-110"
+                    : "bg-telas-navy text-white hover:bg-telas-navy-light"
                 }`}
               >
                 Quero esse plano
@@ -150,9 +150,9 @@ export default function PlanosPage() {
                 {exibicoes.map((row) => (
                   <tr key={row.telas}>
                     <td className="px-4 py-3 font-medium text-slate-900">{row.telas} telas</td>
-                    <td className="px-4 py-3 text-brivox-bronze font-semibold">{row.dia}</td>
-                    <td className="px-4 py-3 text-brivox-bronze font-semibold">{row.mes}</td>
-                    <td className="px-4 py-3 text-brivox-bronze font-semibold">{row.tresMeses}</td>
+                    <td className="px-4 py-3 text-telas-bronze font-semibold">{row.dia}</td>
+                    <td className="px-4 py-3 text-telas-bronze font-semibold">{row.mes}</td>
+                    <td className="px-4 py-3 text-telas-bronze font-semibold">{row.tresMeses}</td>
                   </tr>
                 ))}
               </tbody>
@@ -172,9 +172,9 @@ export default function PlanosPage() {
           {comoFunciona.map((step) => (
             <div
               key={step.n}
-              className="rounded-xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-brivox-blue/10"
+              className="rounded-xl border border-slate-200 bg-white p-6 transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-telas-blue/10"
             >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brivox-bronze text-sm font-bold text-white">
+              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-telas-bronze text-sm font-bold text-white">
                 {step.n}
               </span>
               <h3 className="mt-4 font-semibold text-slate-900">{step.title}</h3>
@@ -193,9 +193,9 @@ export default function PlanosPage() {
               return (
                 <div
                   key={item.title}
-                  className="flex gap-4 rounded-xl bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-brivox-blue/10"
+                  className="flex gap-4 rounded-xl bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-telas-blue/10"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brivox-navy text-brivox-blue">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-telas-navy text-telas-blue">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <div>
@@ -217,7 +217,7 @@ export default function PlanosPage() {
           href={WHATSAPP_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-6 inline-block rounded-md bg-brivox-bronze px-6 py-3 text-sm font-semibold text-white hover:brightness-110"
+          className="mt-6 inline-block rounded-md bg-telas-bronze px-6 py-3 text-sm font-semibold text-white hover:brightness-110"
         >
           Fale com a gente no WhatsApp
         </a>

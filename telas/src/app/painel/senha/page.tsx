@@ -25,7 +25,7 @@ export default function AlterarSenhaPage() {
             id="senhaAtual"
             name="senhaAtual"
             required
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -38,7 +38,7 @@ export default function AlterarSenhaPage() {
             name="novaSenha"
             required
             minLength={8}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
           <p className="mt-1 text-xs text-slate-500">Mínimo de 8 caracteres.</p>
         </div>
@@ -52,7 +52,7 @@ export default function AlterarSenhaPage() {
             name="confirmarSenha"
             required
             minLength={8}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -64,7 +64,7 @@ export default function AlterarSenhaPage() {
         <button
           type="submit"
           disabled={pending}
-          className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+          className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
         >
           {pending ? "Salvando..." : "Alterar senha"}
         </button>

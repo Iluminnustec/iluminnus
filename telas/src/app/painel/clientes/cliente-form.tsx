@@ -69,7 +69,7 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
             min="0"
             defaultValue={defaultValues?.planoTelas ?? ""}
             placeholder="Ex: 5, 10, 15, 20"
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -81,7 +81,7 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
             id="vendedorId"
             name="vendedorId"
             defaultValue={defaultValues?.vendedorId ?? ""}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="">Não informado</option>
             {vendedores.map((v) => (
@@ -102,7 +102,7 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
           name="observacoes"
           defaultValue={defaultValues?.observacoes ?? ""}
           rows={3}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -111,7 +111,7 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+        className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
       >
         {pending ? "Salvando..." : submitLabel}
       </button>
@@ -143,7 +143,7 @@ function Field({
         type={type}
         required={required}
         defaultValue={defaultValue}
-        className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+        className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
       />
     </div>
   );

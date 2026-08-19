@@ -65,7 +65,7 @@ export function PlanoPicker({ opcoes }: { opcoes: Opcao[] }) {
                       key={opcao.id}
                       className={`flex cursor-pointer items-start gap-3 rounded-md border p-3 transition-colors ${
                         marcada
-                          ? "border-brivox-blue bg-brivox-blue/5"
+                          ? "border-telas-blue bg-telas-blue/5"
                           : "border-slate-200 hover:border-slate-300"
                       }`}
                     >
@@ -116,7 +116,7 @@ export function PlanoPicker({ opcoes }: { opcoes: Opcao[] }) {
           <button
             type="submit"
             disabled={pending || selecionadas.size === 0}
-            className="rounded-md bg-brivox-navy px-6 py-3 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-50"
+            className="rounded-md bg-telas-navy px-6 py-3 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-50"
           >
             {pending ? "Enviando..." : "Enviar proposta"}
           </button>

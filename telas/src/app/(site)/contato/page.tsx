@@ -9,9 +9,9 @@ const infos = [
 export default function ContatoPage() {
   return (
     <div>
-      <section className="bg-brivox-navy text-white">
+      <section className="bg-telas-navy text-white">
         <div className="mx-auto max-w-4xl px-6 py-20 text-center">
-          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-brivox-bronze">
+          <p className="font-mono text-xs font-semibold uppercase tracking-widest text-telas-bronze">
             Contato
           </p>
           <h1 className="mt-4 text-3xl font-bold sm:text-4xl">
@@ -26,9 +26,9 @@ export default function ContatoPage() {
 
       <section className="mx-auto max-w-4xl px-6 py-16">
         <div className="grid gap-6 sm:grid-cols-[1.2fr_1fr]">
-          <div className="flex flex-col justify-between rounded-xl border border-brivox-bronze/30 bg-white p-8 shadow-sm">
+          <div className="flex flex-col justify-between rounded-xl border border-telas-bronze/30 bg-white p-8 shadow-sm">
             <div>
-              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-brivox-navy text-brivox-blue">
+              <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-telas-navy text-telas-blue">
                 <MessageCircle className="h-5 w-5" strokeWidth={1.75} />
               </span>
               <h2 className="mt-4 text-lg font-semibold text-slate-900">
@@ -42,7 +42,7 @@ export default function ContatoPage() {
               href={WHATSAPP_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-brivox-bronze px-6 py-3 text-sm font-semibold text-white hover:brightness-110"
+              className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-telas-bronze px-6 py-3 text-sm font-semibold text-white hover:brightness-110"
             >
               WhatsApp: {WHATSAPP_DISPLAY}
             </a>
@@ -56,7 +56,7 @@ export default function ContatoPage() {
                   key={item.label}
                   className="flex items-center gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
                 >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brivox-navy text-brivox-blue">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-telas-navy text-telas-blue">
                     <Icon className="h-5 w-5" strokeWidth={1.75} />
                   </span>
                   <div>

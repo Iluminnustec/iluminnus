@@ -46,7 +46,7 @@ export function CobrancaForm({
           required
           defaultValue={defaultValues?.descricao}
           placeholder="Ex: Mensalidade de veiculação - Agosto/2026"
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -59,7 +59,7 @@ export function CobrancaForm({
           name="clienteId"
           required
           defaultValue={defaultValues?.clienteId ?? ""}
-          className="mt-1 w-full max-w-xs rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full max-w-xs rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         >
           <option value="" disabled>
             Selecione um cliente
@@ -85,7 +85,7 @@ export function CobrancaForm({
             min="0"
             required
             defaultValue={defaultValues?.valor}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -99,7 +99,7 @@ export function CobrancaForm({
             type="date"
             required
             defaultValue={toDateInputValue(defaultValues?.vencimento)}
-            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           />
         </div>
 
@@ -111,7 +111,7 @@ export function CobrancaForm({
             id="status"
             name="status"
             defaultValue={defaultValues?.status ?? "PENDENTE"}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
           >
             <option value="PENDENTE">Pendente</option>
             <option value="PAGO">Pago</option>
@@ -130,7 +130,7 @@ export function CobrancaForm({
           name="observacoes"
           rows={3}
           defaultValue={defaultValues?.observacoes ?? ""}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -139,7 +139,7 @@ export function CobrancaForm({
       <button
         type="submit"
         disabled={pending}
-        className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+        className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
       >
         {pending ? "Salvando..." : submitLabel}
       </button>

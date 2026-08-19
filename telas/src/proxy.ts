@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 import { podeAcessar, rotaInicial, type Cargo } from "@/lib/rbac";
 
-const SESSION_COOKIE = "brivox_session";
-const secretKey = process.env.SESSION_SECRET ?? "brivox-dev-secret-troque-em-producao";
+const SESSION_COOKIE = "telas_session";
+const secretKey = process.env.SESSION_SECRET ?? "telas-dev-secret-troque-em-producao";
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function proxy(request: NextRequest) {

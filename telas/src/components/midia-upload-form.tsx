@@ -108,7 +108,7 @@ export function MidiaUploadForm({
           id="nome"
           name="nome"
           placeholder="Ex: Promo Agosto"
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
       </div>
 
@@ -122,7 +122,7 @@ export function MidiaUploadForm({
           type="number"
           min="1"
           defaultValue={10}
-          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         />
         <p className="mt-1 text-xs text-slate-400">Usado só para imagens; vídeo toca até o fim.</p>
       </div>
@@ -135,7 +135,7 @@ export function MidiaUploadForm({
           id="clienteId"
           name="clienteId"
           defaultValue=""
-          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
+          className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
         >
           <option value="">Nenhum (institucional)</option>
           {clientes.map((cliente) => (
@@ -161,7 +161,7 @@ export function MidiaUploadForm({
         <button
           type="submit"
           disabled={enviando}
-          className="rounded-md bg-brivox-navy px-5 py-2 text-sm font-semibold text-white hover:bg-brivox-navy-light disabled:opacity-60"
+          className="rounded-md bg-telas-navy px-5 py-2 text-sm font-semibold text-white hover:bg-telas-navy-light disabled:opacity-60"
         >
           {enviando ? "Enviando..." : "Adicionar à playlist"}
         </button>

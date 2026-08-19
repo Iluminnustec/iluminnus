@@ -7,8 +7,8 @@ precisar perguntar nada — se algo aqui estiver desatualizado ou faltando,
 atualize ao mexer no código.
 
 Leia também **[`DISTRIBUICAO.md`](./DISTRIBUICAO.md)** — histórico das
-decisões de arquitetura (por que é multi-tenant, o que já foi "amarra" da
-Brivox e ainda precisa virar genérico, como cadastrar um dono novo).
+decisões de arquitetura (por que é multi-tenant, o que já foi "amarra" do
+dono original e ainda precisa virar genérico, como cadastrar um dono novo).
 
 ---
 
@@ -22,9 +22,9 @@ Brivox e ainda precisa virar genérico, como cadastrar um dono novo).
 
   | Área | Quem acessa | Cookie de sessão | O que faz |
   |---|---|---|---|
-  | `/admin` | Staff da Iluminnus (`Cargo.SUPER_ADMIN`) | `brivox_session` | Cadastra donos, controla assinatura/cobrança, vê o fluxo de caixa da própria Iluminnus |
-  | `/painel` | Staff de um dono (`ADMIN`/`SUPERVISOR`/`VENDAS`/`SOCIO`) | `brivox_session` | Gerencia prédios, telas, mídia, clientes, financeiro daquele dono |
-  | `/cliente` | Anunciantes de um dono | `brivox_cliente_session` | Cliente do dono monta plano, acompanha propostas |
+  | `/admin` | Staff da Iluminnus (`Cargo.SUPER_ADMIN`) | `telas_session` | Cadastra donos, controla assinatura/cobrança, vê o fluxo de caixa da própria Iluminnus |
+  | `/painel` | Staff de um dono (`ADMIN`/`SUPERVISOR`/`VENDAS`/`SOCIO`) | `telas_session` | Gerencia prédios, telas, mídia, clientes, financeiro daquele dono |
+  | `/cliente` | Anunciantes de um dono | `telas_cliente_session` | Cliente do dono monta plano, acompanha propostas |
   | `/assinar` | Público (sem login) | — | Autoatendimento: quem quer virar dono novo se cadastra sozinho, 14 dias grátis |
   | `(site)` | Público (sem login) | — | Site institucional do **dono** (marca dele, não da Iluminnus) |
 

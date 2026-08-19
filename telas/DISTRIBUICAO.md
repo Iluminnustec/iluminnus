@@ -3,8 +3,9 @@
 Este documento existia antes para explicar como "duplicar o projeto inteiro"
 por empresa. **Isso mudou.** O sistema agora é multi-tenant de verdade: um
 único deploy, um único banco Postgres, isolado por linha (`empresaId`) em
-vez de por cópia de código. A Brivox Mídia é o primeiro dono cadastrado
-nesse modelo novo, não mais "o sistema em si".
+vez de por cópia de código. Cada dono cadastrado nesse modelo novo é só
+mais um tenant — nenhum é "o sistema em si", nem o que gerou este código
+originalmente.
 
 Quem gerencia os donos (cadastra empresa nova, controla assinatura mensal,
 bloqueia/libera acesso) é a **Iluminnus**, dona do produto Telas — pela área
@@ -18,13 +19,12 @@ empresa).
 Stack: Next.js 16 (App Router) + TypeScript + Tailwind CSS v4, Prisma 7 com
 `@prisma/adapter-pg` sobre Supabase Postgres, autenticação por JWT (`jose`)
 em cookies httpOnly, hospedado na Vercel. Existe também um app Android
-separado (`brivox-player`, Kotlin + media3/ExoPlayer) que roda nas telas
-físicas.
+separado (Kotlin + media3/ExoPlayer) que roda nas telas físicas.
 
 Três áreas de autenticação, cada uma com seu próprio cookie de sessão:
 
 - **`/admin/*`** — staff da Iluminnus (dona do produto). `src/lib/auth.ts`,
-  cookie `brivox_session`, cargo `SUPER_ADMIN` (`Usuario.empresaId = null`).
+  cookie `telas_session`, cargo `SUPER_ADMIN` (`Usuario.empresaId = null`).
   Cadastra `Empresa` (dono), `Assinatura` (plano/valor/vencimento/status) e
   o primeiro `Usuario` (`ADMIN`) de cada dono novo. Registra pagamentos
   manualmente (`PagamentoAssinatura`) — sem gateway integrado por enquanto.
@@ -32,7 +32,7 @@ Três áreas de autenticação, cada uma com seu próprio cookie de sessão:
   por `Cargo` (`ADMIN`, `SUPERVISOR`, `VENDAS`, `SOCIO`) em
   `src/lib/rbac.ts`. `Usuario.empresaId` sempre preenchido aqui.
 - **`/cliente/*`** — os clientes/anunciantes de um dono se cadastram e logam
-  sozinhos. `src/lib/auth-cliente.ts`, cookie `brivox_cliente_session`. Sem
+  sozinhos. `src/lib/auth-cliente.ts`, cookie `telas_cliente_session`. Sem
   RBAC — sempre "o próprio cliente vendo os próprios dados", escopado pelo
   `empresaId` da empresa resolvida no cadastro (ver seção de domínio).
 
@@ -53,7 +53,7 @@ significa staff/ação da própria Iluminnus. `Dispositivo.empresaId` também é
 opcional: um dispositivo físico recém pareado (checkin em
 `/api/dispositivos/checkin`) fica sem dono até alguém vincular a uma Tela em
 `/painel/dispositivos` — lacuna conhecida de UX de provisionamento, sem
-urgência enquanto só a Brivox tem telas físicas.
+urgência enquanto só um dono tem telas físicas.
 
 **Bloqueio de acesso por inadimplência**: `src/lib/assinatura.ts`
 (`empresaBloqueada`) — `Empresa.ativo = false` (kill-switch manual) ou
@@ -73,8 +73,8 @@ visita antes de criar o registro.
 
 **Gap conhecido, deliberado por ora:** o site público institucional
 (`src/app/(site)/*` — home, planos, sobre, contato) **não** usa essa
-resolução — continua com conteúdo fixo da Brivox (textos, preços, "João
-Pessoa", cores `brivox-*`, WhatsApp em `src/lib/brand.ts`). Fazer esse site
+resolução — continua com conteúdo fixo do dono original (textos, preços,
+"João Pessoa", cores `telas-*`, WhatsApp em `src/lib/brand.ts`). Fazer esse site
 ser multi-tenant de verdade (headline, preços, cores, contato por dono)
 exigiria um mini-CMS por empresa — decisão de produto maior, fora do escopo
 da virada pra multi-tenant. **Enquanto isso não existir, o segundo dono
@@ -85,12 +85,12 @@ site, não ao sistema inteiro.
 
 ---
 
-## O que é "amarra" da Brivox no site público (ainda precisa trocar na mão por dono)
+## O que é "amarra" do dono original no site público (ainda precisa trocar na mão por dono)
 
 | O quê | Onde |
 |---|---|
 | Nome, WhatsApp | `src/lib/brand.ts` |
-| Cores da marca | `brivox-navy` / `brivox-blue` / `brivox-bronze` em `src/app/globals.css` |
+| Cores da marca | `telas-navy` / `telas-blue` / `telas-bronze` em `src/app/globals.css` |
 | Logos | `public/brand/*.png` |
 | Textos e preços do site público | `src/app/(site)/page.tsx`, `sobre`, `contato`, `planos` |
 | Faixas de comissão | `src/lib/comissionamento.ts` — `FAIXAS_COMISSAO` (pode variar por dono; hoje é global no código, não por `Empresa`) |
@@ -100,7 +100,7 @@ site, não ao sistema inteiro.
 As duas primeiras linhas da tabela (comissão e precificação) são regras de
 negócio hoje *globais no código*, compartilhadas por todos os donos — não
 uma coluna em `Empresa`. Se um segundo dono precisar de faixas diferentes
-da Brivox, isso ainda vira trabalho de código, não um campo no `/admin`.
+do padrão atual, isso ainda vira trabalho de código, não um campo no `/admin`.
 
 ---
 
@@ -117,7 +117,7 @@ da Brivox, isso ainda vira trabalho de código, não um campo no `/admin`.
 4. **Se** o dono novo também usa telas físicas: revisar o gap de
    provisionamento de `Dispositivo` acima, e duplicar/configurar o app
    Android (`applicationId`, ícone, `Config.kt`) se ele não puder usar o
-   mesmo pacote instalado da Brivox.
+   mesmo pacote já instalado.
 5. Cobrança segue manual: registrar cada pagamento em
    `/admin/empresas/[id]` (aba de assinatura) conforme for recebendo.
 
@@ -136,9 +136,9 @@ produto *diferente* (não o Telas) precisa de outra base de código.
 - `SUPABASE_URL` / `SUPABASE_SECRET_KEY` — usadas no servidor (`src/lib/storage.ts`) pra gerar as signed upload URLs.
 - `NEXT_PUBLIC_SITE_URL` — usada em `sitemap.ts`/`robots.ts` pra montar URLs absolutas.
 
-Nenhum `.env` real existe ainda em nenhuma das cópias locais — a instalação
-com Supabase/Vercel de verdade é o próximo passo fora do código, quando o
-usuário tiver o projeto Supabase criado.
+Projeto Supabase e deploy na Vercel já configurados e em produção — ver
+`README.md` pra detalhes de onde ficam as credenciais reais (não estão no
+código, nunca commitar `.env`).
 
 ---
 
