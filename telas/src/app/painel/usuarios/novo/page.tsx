@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { createUsuario, type UsuarioState } from "../actions";
+import { PasswordInput } from "@/components/password-input";
 
 const initialState: UsuarioState = {};
 
@@ -59,10 +60,9 @@ export default function NovoUsuarioPage() {
           <label htmlFor="senha" className="block text-sm font-medium text-slate-700">
             Senha inicial *
           </label>
-          <input
+          <PasswordInput
             id="senha"
             name="senha"
-            type="password"
             required
             minLength={8}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"

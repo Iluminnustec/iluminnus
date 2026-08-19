@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Site institucional da Iluminnus
 
-## Getting Started
+Landing page da **Iluminnus Technology** (empresa dona do produto Telas e de
+futuros produtos). Site estático — sem backend, sem banco de dados, sem
+autenticação. Só apresenta a empresa e lista os produtos (hoje só o Telas).
 
-First, run the development server:
+## Stack
+
+Next.js 16 (App Router, Turbopack) + TypeScript + Tailwind CSS v4. Sem
+Prisma, sem Supabase, sem nenhuma dependência de dado dinâmico.
+
+## Rodando localmente
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre `http://localhost:3000`. Não precisa de `.env` — não tem nenhuma
+variável de ambiente.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estrutura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/app/
+  layout.tsx     — fontes, metadata, badge de versão
+  page.tsx        — a única página (hero, sobre, produtos, contato)
+  globals.css     — paleta de cores (navy/dourado/azul, extraída do brasão)
+src/components/
+  hero.tsx, sobre.tsx, produtos.tsx, contato.tsx, site-header.tsx, site-footer.tsx
+public/brand/     — logos (Vertical/horizontal), copiados de Logo/ na pasta raiz da Iluminnus
+```
 
-## Learn More
+Pra adicionar um produto novo além do Telas: editar o array `PRODUTOS` em
+`src/components/produtos.tsx`.
 
-To learn more about Next.js, take a look at the following resources:
+## Identidade visual
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Paleta em `src/app/globals.css` (`--color-*`): navy quase preto de fundo,
+dourado como cor primária, azul elétrico como accent — extraída direto do
+brasão em `Logo/Vertical.jpeg` (pasta raiz da Iluminnus, fora deste repo).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel, root directory `site` dentro do monorepo
+(`github.com/Iluminnustec/iluminnus`). Redeploya sozinho a cada `git push`
+na `main`. Sem variáveis de ambiente pra configurar.

@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { createEmpresa, type EmpresaState } from "../../actions";
+import { PasswordInput } from "@/components/password-input";
 
 const initialState: EmpresaState = {};
 
@@ -131,10 +132,9 @@ export default function NovaEmpresaPage() {
             <label htmlFor="adminSenha" className={labelClass}>
               Senha inicial *
             </label>
-            <input
+            <PasswordInput
               id="adminSenha"
               name="adminSenha"
-              type="password"
               minLength={8}
               required
               className={inputClass}

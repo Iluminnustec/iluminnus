@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { alterarSenha, type SenhaState } from "./actions";
+import { PasswordInput } from "@/components/password-input";
 
 const initialState: SenhaState = {};
 
@@ -20,10 +21,9 @@ export default function AlterarSenhaPage() {
           <label htmlFor="senhaAtual" className="block text-sm font-medium text-slate-700">
             Senha atual
           </label>
-          <input
+          <PasswordInput
             id="senhaAtual"
             name="senhaAtual"
-            type="password"
             required
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
           />
@@ -33,10 +33,9 @@ export default function AlterarSenhaPage() {
           <label htmlFor="novaSenha" className="block text-sm font-medium text-slate-700">
             Nova senha
           </label>
-          <input
+          <PasswordInput
             id="novaSenha"
             name="novaSenha"
-            type="password"
             required
             minLength={8}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
@@ -48,10 +47,9 @@ export default function AlterarSenhaPage() {
           <label htmlFor="confirmarSenha" className="block text-sm font-medium text-slate-700">
             Confirmar nova senha
           </label>
-          <input
+          <PasswordInput
             id="confirmarSenha"
             name="confirmarSenha"
-            type="password"
             required
             minLength={8}
             className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"

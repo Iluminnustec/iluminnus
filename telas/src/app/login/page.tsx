@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { loginAction, type LoginState } from "./actions";
+import { PasswordInput } from "@/components/password-input";
 
 const initialState: LoginState = {};
 
@@ -46,10 +47,9 @@ export default function LoginPage() {
             <label htmlFor="senha" className="block text-sm font-medium text-slate-700">
               Senha
             </label>
-            <input
+            <PasswordInput
               id="senha"
               name="senha"
-              type="password"
               required
               className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
             />

@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { updateUsuario, type UsuarioState } from "../actions";
+import { PasswordInput } from "@/components/password-input";
 
 const initialState: UsuarioState = {};
 
@@ -69,10 +70,9 @@ export function EditarUsuarioForm({
         <label htmlFor="novaSenha" className="block text-sm font-medium text-slate-700">
           Nova senha (opcional)
         </label>
-        <input
+        <PasswordInput
           id="novaSenha"
           name="novaSenha"
-          type="password"
           minLength={8}
           className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
         />

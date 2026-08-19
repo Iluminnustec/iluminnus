@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { criarContaTelas, type AssinarState } from "./actions";
+import { PasswordInput } from "@/components/password-input";
 
 const initialState: AssinarState = {};
 
@@ -82,10 +83,9 @@ export default function AssinarPage() {
             <label htmlFor="adminSenha" className="block text-sm font-medium text-slate-700">
               Senha
             </label>
-            <input
+            <PasswordInput
               id="adminSenha"
               name="adminSenha"
-              type="password"
               required
               minLength={8}
               className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-brivox-blue focus:outline-none"
