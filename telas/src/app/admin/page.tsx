@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { EditIcon } from "@/components/edit-icon";
+import { PrediosMapLoader } from "@/components/predios-map-loader";
 
 const STATUS_LABEL: Record<string, string> = {
   ATIVA: "Ativa",
@@ -21,11 +22,34 @@ function formatDate(date: Date) {
 }
 
 export default async function AdminEmpresasPage() {
-  const empresas = await prisma.empresa.findMany({
-    orderBy: { nome: "asc" },
-    include: { assinatura: true, _count: { select: { usuarios: true } } },
-  });
+  const [empresas, prediosComTelas] = await Promise.all([
+    prisma.empresa.findMany({
+      orderBy: { nome: "asc" },
+      include: { assinatura: true, _count: { select: { usuarios: true } } },
+    }),
+    prisma.predio.findMany({
+      where: { latitude: { not: null }, longitude: { not: null } },
+      select: {
+        id: true,
+        nome: true,
+        bairro: true,
+        latitude: true,
+        longitude: true,
+        empresa: { select: { nome: true } },
+        _count: { select: { telas: true } },
+      },
+    }),
+  ]);
   const agora = new Date();
+
+  const pinsDoMapa = prediosComTelas.map((p) => ({
+    id: p.id,
+    nome: `${p.nome} · ${p.empresa.nome}`,
+    bairro: p.bairro,
+    latitude: p.latitude as number,
+    longitude: p.longitude as number,
+    totalTelas: p._count.telas,
+  }));
 
   return (
     <div>
@@ -114,6 +138,19 @@ export default async function AdminEmpresasPage() {
             )}
           </tbody>
         </table>
+      </div>
+
+      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-slate-500">
+        Mapa de todos os prédios (todas as empresas)
+      </h2>
+      <div className="mt-3 h-80 max-w-3xl overflow-hidden rounded-lg border border-slate-200">
+        {pinsDoMapa.length === 0 ? (
+          <div className="flex h-full items-center justify-center bg-slate-50 px-6 text-center text-sm text-slate-400">
+            Nenhum prédio com coordenadas cadastradas em nenhuma empresa ainda.
+          </div>
+        ) : (
+          <PrediosMapLoader predios={pinsDoMapa} />
+        )}
       </div>
     </div>
   );
