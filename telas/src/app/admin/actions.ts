@@ -161,9 +161,12 @@ export async function registrarPagamento(
         registradoPor: session.nome,
       },
     }),
+    // Um pagamento de verdade encerra o período de teste (se ainda houver
+    // um em aberto) — a empresa vira assinante paga, não mostra mais
+    // "em teste" no /admin.
     prisma.assinatura.update({
       where: { id: assinaturaId },
-      data: { status: "ATIVA", proximoVencimento },
+      data: { status: "ATIVA", proximoVencimento, trialAte: null },
     }),
   ]);
 

@@ -16,11 +16,16 @@ const STATUS_CLASSES: Record<string, string> = {
   CANCELADA: "bg-slate-100 text-slate-500",
 };
 
+function formatDate(date: Date) {
+  return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
+}
+
 export default async function AdminEmpresasPage() {
   const empresas = await prisma.empresa.findMany({
     orderBy: { nome: "asc" },
     include: { assinatura: true, _count: { select: { usuarios: true } } },
   });
+  const agora = new Date();
 
   return (
     <div>
@@ -81,6 +86,19 @@ export default async function AdminEmpresasPage() {
                     {!empresa.ativo && (
                       <span className="rounded-full bg-slate-800 px-2 py-1 text-xs font-medium text-white">
                         Bloqueada
+                      </span>
+                    )}
+                    {empresa.assinatura?.trialAte && (
+                      <span
+                        className={`rounded-full px-2 py-1 text-xs font-medium ${
+                          empresa.assinatura.trialAte < agora
+                            ? "bg-red-100 text-red-700"
+                            : "bg-blue-100 text-blue-700"
+                        }`}
+                      >
+                        {empresa.assinatura.trialAte < agora
+                          ? `Trial expirado em ${formatDate(empresa.assinatura.trialAte)}`
+                          : `Trial até ${formatDate(empresa.assinatura.trialAte)}`}
                       </span>
                     )}
                   </div>
