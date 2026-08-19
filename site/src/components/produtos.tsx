@@ -17,7 +17,7 @@ const PRODUTOS: Produto[] = [
       "Player próprio para Android nas telas físicas",
       "Portal para clientes acompanharem seus anúncios",
     ],
-    href: process.env.NEXT_PUBLIC_TELAS_URL ?? "https://telas-blond.vercel.app",
+    href: process.env.NEXT_PUBLIC_TELAS_URL ?? "https://admin.iluminnus.com.br",
   },
 ];
 

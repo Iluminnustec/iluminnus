@@ -8,8 +8,10 @@ const LINKS = [
 ];
 
 // Login único: admin (Iluminnus), painel (donos) e cliente compartilham o
-// mesmo /login do Telas -- não existe mais um domínio de admin separado.
-const TELAS_URL = process.env.NEXT_PUBLIC_TELAS_URL ?? "https://telas-blond.vercel.app";
+// mesmo /login -- só muda o domínio (dominio proprio em vez do vercel.app),
+// nao a rota. Nao ha rewrite por host, entao qualquer dominio apontado pro
+// projeto Telas na Vercel serve o mesmo app.
+const TELAS_URL = process.env.NEXT_PUBLIC_TELAS_URL ?? "https://admin.iluminnus.com.br";
 const LOGIN_URL = `${TELAS_URL}/login`;
 
 export function SiteHeader() {
