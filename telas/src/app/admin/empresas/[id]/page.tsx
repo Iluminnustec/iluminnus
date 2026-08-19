@@ -4,6 +4,7 @@ import { CARGO_LABELS } from "@/lib/rbac";
 import { updateEmpresaAtivo } from "../../actions";
 import { AssinaturaForm } from "./assinatura-form";
 import { PagamentoForm } from "./pagamento-form";
+import { IndicadorSelect } from "./indicador-select";
 
 export default async function EmpresaDetalhePage({
   params,
@@ -11,14 +12,18 @@ export default async function EmpresaDetalhePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const empresa = await prisma.empresa.findUnique({
-    where: { id },
-    include: {
-      assinatura: { include: { pagamentos: { orderBy: { referencia: "desc" } } } },
-      usuarios: { orderBy: { nome: "asc" } },
-      licencas: { include: { app: true }, orderBy: { criadaEm: "asc" } },
-    },
-  });
+  const [empresa, indicadores] = await Promise.all([
+    prisma.empresa.findUnique({
+      where: { id },
+      include: {
+        assinatura: { include: { pagamentos: { orderBy: { referencia: "desc" } } } },
+        usuarios: { orderBy: { nome: "asc" } },
+        licencas: { include: { app: true }, orderBy: { criadaEm: "asc" } },
+        indicador: { select: { id: true, nome: true } },
+      },
+    }),
+    prisma.indicador.findMany({ orderBy: { nome: "asc" }, select: { id: true, nome: true, ativo: true } }),
+  ]);
   if (!empresa) notFound();
 
   const toggleAtivo = updateEmpresaAtivo.bind(null, empresa.id, !empresa.ativo);
@@ -75,6 +80,21 @@ export default async function EmpresaDetalhePage({
           reativar.
         </p>
       )}
+
+      <section className="rounded-lg border border-slate-200 bg-white p-6">
+        <h2 className="text-sm font-semibold text-slate-900">Indicação</h2>
+        <p className="mt-1 text-xs text-slate-500">
+          Se essa empresa veio por indicação de alguém, o indicador recebe comissão sobre cada
+          pagamento de assinatura registrado aqui.
+        </p>
+        <div className="mt-4">
+          <IndicadorSelect
+            empresaId={empresa.id}
+            indicadorAtualId={empresa.indicador?.id ?? ""}
+            indicadores={indicadores}
+          />
+        </div>
+      </section>
 
       <section className="rounded-lg border border-slate-200 bg-white p-6">
         <h2 className="text-sm font-semibold text-slate-900">Assinatura</h2>

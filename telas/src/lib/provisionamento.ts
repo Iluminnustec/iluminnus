@@ -43,6 +43,7 @@ export type DadosProvisionamentoEmpresa = {
   adminNome: string;
   adminEmail: string;
   adminSenhaHash: string;
+  indicadorId?: string | null;
 };
 
 // Slug do App usado por este próprio produto -- toda Empresa provisionada
@@ -73,6 +74,7 @@ export async function provisionarEmpresa(
       dominio: dados.dominio || null,
       cidade: dados.cidade || null,
       estado: dados.estado || null,
+      indicadorId: dados.indicadorId || null,
     },
   });
 

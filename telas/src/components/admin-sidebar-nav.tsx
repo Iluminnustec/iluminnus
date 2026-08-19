@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Building2, Wallet, LayoutGrid } from "lucide-react";
+import { Building2, Wallet, LayoutGrid, Users } from "lucide-react";
 
 const items = [
   { href: "/admin", label: "Empresas", icon: Building2 },
   { href: "/admin/apps", label: "Apps e licenças", icon: LayoutGrid },
+  { href: "/admin/indicadores", label: "Indicadores", icon: Users },
   { href: "/admin/financeiro", label: "Financeiro", icon: Wallet },
 ];
 

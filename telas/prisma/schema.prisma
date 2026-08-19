@@ -108,6 +108,12 @@ model Empresa {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // Quem indicou esse dono pra Iluminnus (programa de indicação/afiliado).
+  // Se preenchido, todo pagamento de assinatura dessa Empresa gera uma
+  // ComissaoIndicacao pro indicador, enquanto a Empresa continuar assinante.
+  indicadorId String?
+  indicador   Indicador? @relation(fields: [indicadorId], references: [id])
+
   assinatura   Assinatura?
   licencas     Licenca[]
   usuarios     Usuario[]
@@ -125,6 +131,52 @@ model Empresa {
   vendas       Venda[]
   fechamentosComissao FechamentoComissao[]
   itensEstoque ItemEstoque[]
+  comissoesIndicacao ComissaoIndicacao[]
+}
+
+// Pessoa (não necessariamente um Usuario do sistema) que indica novos donos
+// pra Iluminnus e recebe comissão recorrente enquanto eles forem assinantes.
+model Indicador {
+  id               String   @id @default(cuid())
+  nome             String
+  contato          String?
+  chavePix         String?
+  percentualPadrao Float    @default(20)
+  ativo            Boolean  @default(true)
+  createdAt        DateTime @default(now())
+
+  empresas  Empresa[]
+  comissoes ComissaoIndicacao[]
+}
+
+enum StatusComissaoIndicacao {
+  PENDENTE
+  PAGA
+}
+
+// Uma linha por pagamento de assinatura recebido de uma Empresa que tem
+// indicador -- gerada automaticamente em registrarPagamento(). 1:1 com o
+// PagamentoAssinatura de origem pra nunca duplicar comissão do mesmo pagamento.
+model ComissaoIndicacao {
+  id                    String                  @id @default(cuid())
+  percentual            Float
+  valorPago             Float
+  valorComissao         Float
+  status                StatusComissaoIndicacao @default(PENDENTE)
+  dataPagamentoComissao DateTime?
+  createdAt             DateTime                @default(now())
+
+  indicadorId String
+  indicador   Indicador @relation(fields: [indicadorId], references: [id])
+
+  empresaId String
+  empresa   Empresa @relation(fields: [empresaId], references: [id])
+
+  pagamentoAssinaturaId String              @unique
+  pagamentoAssinatura   PagamentoAssinatura @relation(fields: [pagamentoAssinaturaId], references: [id], onDelete: Cascade)
+
+  @@index([indicadorId])
+  @@index([empresaId])
 }
 
 // Registro central da Iluminnus: qual produto (App) cada Empresa tem
@@ -191,6 +243,8 @@ model PagamentoAssinatura {
 
   assinaturaId  String
   assinatura    Assinatura @relation(fields: [assinaturaId], references: [id], onDelete: Cascade)
+
+  comissaoIndicacao ComissaoIndicacao?
 }
 
 model Usuario {
