@@ -5,7 +5,7 @@ import { CopyButton } from "@/components/copy-button";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://admin.iluminnus.com.br";
 
-export default async function IndicadoresPage() {
+export default async function ReferralPage() {
   const indicadores = await prisma.indicador.findMany({
     orderBy: { nome: "asc" },
     include: {
@@ -17,15 +17,15 @@ export default async function IndicadoresPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Indicadores</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Referral</h1>
         <p className="mt-1 text-sm text-slate-500">
-          Programa de indicação: quem traz um dono novo pro Telas recebe comissão recorrente
+          Programa de referral: quem traz um dono novo pro Telas recebe comissão recorrente
           sobre cada pagamento de assinatura dele, enquanto continuar ativo.
         </p>
       </div>
 
       <section className="rounded-lg border border-slate-200 bg-white p-6">
-        <h2 className="text-sm font-semibold text-slate-900">Novo indicador</h2>
+        <h2 className="text-sm font-semibold text-slate-900">Novo participante do referral</h2>
         <div className="mt-4">
           <IndicadorForm />
         </div>
@@ -57,7 +57,7 @@ export default async function IndicadoresPage() {
                 <tr key={indicador.id} className="hover:bg-slate-50">
                   <td className="px-5 py-3">
                     <Link
-                      href={`/admin/indicadores/${indicador.id}`}
+                      href={`/admin/referral/${indicador.id}`}
                       className="font-medium text-slate-900 hover:text-iluminnus-gold"
                     >
                       {indicador.nome}

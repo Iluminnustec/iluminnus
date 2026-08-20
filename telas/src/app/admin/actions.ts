@@ -241,15 +241,15 @@ export async function createIndicador(
     },
   });
 
-  revalidatePath("/admin/indicadores");
-  redirect("/admin/indicadores");
+  revalidatePath("/admin/referral");
+  redirect("/admin/referral");
 }
 
 export async function updateIndicadorAtivo(id: string, ativo: boolean) {
   await exigirSuperAdmin();
   await prisma.indicador.update({ where: { id }, data: { ativo } });
-  revalidatePath("/admin/indicadores");
-  revalidatePath(`/admin/indicadores/${id}`);
+  revalidatePath("/admin/referral");
+  revalidatePath(`/admin/referral/${id}`);
 }
 
 export async function marcarComissaoPaga(id: string, indicadorId: string) {
@@ -258,5 +258,5 @@ export async function marcarComissaoPaga(id: string, indicadorId: string) {
     where: { id },
     data: { status: "PAGA", dataPagamentoComissao: new Date() },
   });
-  revalidatePath(`/admin/indicadores/${indicadorId}`);
+  revalidatePath(`/admin/referral/${indicadorId}`);
 }
