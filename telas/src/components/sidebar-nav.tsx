@@ -16,6 +16,7 @@ import {
   Tv,
   Percent,
   FileText,
+  ClipboardCheck,
 } from "lucide-react";
 import { podeAcessar, type Cargo } from "@/lib/rbac";
 
@@ -45,6 +46,7 @@ const groups: NavGroup[] = [
     label: "Comercial",
     items: [
       { href: "/painel/clientes", label: "Clientes", icon: Users },
+      { href: "/painel/solicitacoes", label: "Solicitações", icon: ClipboardCheck },
       { href: "/painel/receitas", label: "Receitas", icon: Receipt },
       { href: "/painel/propostas", label: "Propostas", icon: FileText },
     ],

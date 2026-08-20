@@ -14,6 +14,8 @@ type ClienteFormProps = {
   action: ClienteFormAction;
   vendedores: { id: string; nome: string }[];
   vendedorTravado?: boolean;
+  ocultarVendedor?: boolean;
+  mostrarMotivo?: boolean;
   defaultValues?: {
     nome?: string;
     razaoSocial?: string | null;
@@ -38,6 +40,8 @@ export function ClienteForm({
   action,
   vendedores,
   vendedorTravado,
+  ocultarVendedor,
+  mostrarMotivo,
   defaultValues,
   submitLabel,
 }: ClienteFormProps) {
@@ -86,34 +90,50 @@ export function ClienteForm({
           />
         </div>
 
-        <div>
-          <label htmlFor="vendedorId" className="block text-sm font-medium text-slate-700">
-            Vendedor responsável
-          </label>
-          {vendedorTravado ? (
-            <p className="mt-1 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
-              Você (vinculado automaticamente)
+        {!ocultarVendedor && (
+          <div>
+            <label htmlFor="vendedorId" className="block text-sm font-medium text-slate-700">
+              Vendedor responsável
+            </label>
+            {vendedorTravado ? (
+              <p className="mt-1 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
+                Você (vinculado automaticamente)
+              </p>
+            ) : (
+              <select
+                id="vendedorId"
+                name="vendedorId"
+                defaultValue={defaultValues?.vendedorId ?? ""}
+                className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
+              >
+                <option value="">Não informado</option>
+                {vendedores.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.nome}
+                  </option>
+                ))}
+              </select>
+            )}
+            <p className="mt-1 text-xs text-slate-400">
+              Usado pra calcular a comissão da venda em Painel → Comissões.
             </p>
-          ) : (
-            <select
-              id="vendedorId"
-              name="vendedorId"
-              defaultValue={defaultValues?.vendedorId ?? ""}
-              className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
-            >
-              <option value="">Não informado</option>
-              {vendedores.map((v) => (
-                <option key={v.id} value={v.id}>
-                  {v.nome}
-                </option>
-              ))}
-            </select>
-          )}
-          <p className="mt-1 text-xs text-slate-400">
-            Usado pra calcular a comissão da venda em Painel → Comissões.
-          </p>
-        </div>
+          </div>
+        )}
       </div>
+
+      {mostrarMotivo && (
+        <div>
+          <label htmlFor="motivo" className="block text-sm font-medium text-slate-700">
+            Motivo da alteração (opcional)
+          </label>
+          <input
+            id="motivo"
+            name="motivo"
+            placeholder="Ex: cliente pediu pra trocar o pacote"
+            className="mt-1 w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
+          />
+        </div>
+      )}
 
       <div>
         <label className="block text-sm font-medium text-slate-700">Observações</label>

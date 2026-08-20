@@ -98,6 +98,9 @@ export async function updateCliente(
   formData: FormData
 ): Promise<ClienteState> {
   const session = await getSessaoComEmpresa();
+  if (session.cargo === "VENDAS") {
+    return { error: 'Vendedores não editam cliente direto — use "Solicitar alteração".' };
+  }
 
   let data;
   try {
@@ -118,6 +121,123 @@ export async function updateCliente(
   });
   revalidatePath("/painel/clientes");
   redirect("/painel/clientes");
+}
+
+// Campos que um vendedor pode propor mudar num cliente existente (tudo
+// exceto vendedorId -- esse só muda por vínculo automático ou decisão do
+// supervisor, nunca por solicitação).
+const camposSolicitacaoSchema = clienteSchema.omit({ vendedorId: true });
+export type CamposSolicitacao = z.infer<typeof camposSolicitacaoSchema>;
+
+export type SolicitacaoState = { error?: string };
+
+export async function solicitarAlteracaoCliente(
+  clienteId: string,
+  _prevState: SolicitacaoState,
+  formData: FormData
+): Promise<SolicitacaoState> {
+  const session = await getSessaoComEmpresa();
+
+  const raw = Object.fromEntries(formData.entries());
+  if (raw.planoTelas === "") delete raw.planoTelas;
+  let camposNovos;
+  try {
+    camposNovos = camposSolicitacaoSchema.parse(raw);
+  } catch {
+    return { error: "Verifique os campos obrigatórios." };
+  }
+
+  const pendente = await prisma.solicitacaoAlteracaoCliente.findFirst({
+    where: { clienteId, empresaId: session.empresaId, status: "PENDENTE" },
+  });
+  if (pendente) {
+    return { error: "Já existe uma solicitação pendente para este cliente. Aguarde a análise." };
+  }
+
+  const motivo = String(formData.get("motivo") ?? "").trim();
+  const cliente = await prisma.cliente.findUnique({
+    where: { id: clienteId, empresaId: session.empresaId },
+  });
+  if (!cliente) return { error: "Cliente não encontrado." };
+
+  await prisma.solicitacaoAlteracaoCliente.create({
+    data: {
+      empresaId: session.empresaId,
+      clienteId,
+      solicitanteId: session.userId,
+      camposNovos,
+      motivo: motivo || null,
+    },
+  });
+
+  await registrarLog({
+    acao: "Solicitou alteração de cliente",
+    entidade: "Cliente",
+    entidadeId: clienteId,
+    descricao: `${session.nome} solicitou alteração no cadastro de "${cliente.nome}".`,
+  });
+
+  revalidatePath(`/painel/clientes/${clienteId}`);
+  revalidatePath("/painel/solicitacoes");
+  redirect(`/painel/clientes/${clienteId}?enviado=1`);
+}
+
+async function exigirRevisor() {
+  const session = await getSessaoComEmpresa();
+  if (!["ADMIN", "SUPERVISOR", "SOCIO"].includes(session.cargo)) {
+    throw new Error("Apenas administradores, supervisores ou sócios podem revisar solicitações.");
+  }
+  return session;
+}
+
+export async function aprovarSolicitacao(id: string) {
+  const session = await exigirRevisor();
+
+  const solicitacao = await prisma.solicitacaoAlteracaoCliente.findUnique({
+    where: { id, empresaId: session.empresaId },
+    include: { cliente: true, solicitante: true },
+  });
+  if (!solicitacao || solicitacao.status !== "PENDENTE") return;
+
+  const camposNovos = solicitacao.camposNovos as CamposSolicitacao;
+
+  await prisma.$transaction([
+    prisma.cliente.update({ where: { id: solicitacao.clienteId }, data: camposNovos }),
+    prisma.solicitacaoAlteracaoCliente.update({
+      where: { id },
+      data: { status: "APROVADA", revisadoPorId: session.userId, revisadoEm: new Date() },
+    }),
+  ]);
+
+  await registrarLog({
+    acao: "Aprovou solicitação de alteração",
+    entidade: "Cliente",
+    entidadeId: solicitacao.clienteId,
+    descricao: `Aprovou a alteração de "${solicitacao.cliente.nome}" solicitada por ${solicitacao.solicitante.nome}.`,
+  });
+
+  revalidatePath("/painel/solicitacoes");
+  revalidatePath("/painel/clientes");
+  revalidatePath(`/painel/clientes/${solicitacao.clienteId}`);
+}
+
+export async function recusarSolicitacao(id: string) {
+  const session = await exigirRevisor();
+
+  const solicitacao = await prisma.solicitacaoAlteracaoCliente.update({
+    where: { id, empresaId: session.empresaId },
+    data: { status: "RECUSADA", revisadoPorId: session.userId, revisadoEm: new Date() },
+    include: { cliente: true, solicitante: true },
+  });
+
+  await registrarLog({
+    acao: "Recusou solicitação de alteração",
+    entidade: "Cliente",
+    entidadeId: solicitacao.clienteId,
+    descricao: `Recusou a alteração de "${solicitacao.cliente.nome}" solicitada por ${solicitacao.solicitante.nome}.`,
+  });
+
+  revalidatePath("/painel/solicitacoes");
 }
 
 export async function toggleClienteAtivo(id: string, ativo: boolean) {
