@@ -1,6 +1,8 @@
 ﻿"use client";
 
+import { useState } from "react";
 import { useActionState } from "react";
+import { MessageCircle, Mail, Copy, CheckCircle2 } from "lucide-react";
 import type { ClienteState } from "./actions";
 
 type ClienteFormAction = (
@@ -33,6 +35,10 @@ const initialState: ClienteState = {};
 
 export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: ClienteFormProps) {
   const [state, formAction, pending] = useActionState(action, initialState);
+
+  if (state.sucesso) {
+    return <ConfirmacaoCliente sucesso={state.sucesso} />;
+  }
 
   return (
     <form action={formAction} className="mt-6 max-w-2xl space-y-4">
@@ -116,6 +122,89 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
         {pending ? "Salvando..." : submitLabel}
       </button>
     </form>
+  );
+}
+
+function ConfirmacaoCliente({
+  sucesso,
+}: {
+  sucesso: NonNullable<ClienteState["sucesso"]>;
+}) {
+  const [copiado, setCopiado] = useState(false);
+
+  async function copiarLink() {
+    try {
+      await navigator.clipboard.writeText(sucesso.linkAtivacao);
+      setCopiado(true);
+      setTimeout(() => setCopiado(false), 2000);
+    } catch {
+      // clipboard indisponível -- sem problema, o link continua selecionável
+      // manualmente no campo abaixo.
+    }
+  }
+
+  return (
+    <div className="mt-6 max-w-xl">
+      <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-5">
+        <CheckCircle2 className="h-8 w-8 shrink-0 text-emerald-600" />
+        <div>
+          <p className="font-semibold text-emerald-900">{sucesso.nome} foi cadastrado(a)!</p>
+          <p className="mt-0.5 text-sm text-emerald-800">
+            Agora falta o cliente finalizar: definir a senha e acompanhar as propostas. Envie o
+            link abaixo pra ele(a).
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-xl border border-slate-200 bg-white p-5">
+        <p className="text-sm font-medium text-slate-700">Link de ativação (uso único)</p>
+        <div className="mt-2 flex items-center gap-2">
+          <code className="flex-1 truncate rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+            {sucesso.linkAtivacao}
+          </code>
+          <button
+            type="button"
+            onClick={copiarLink}
+            className="flex shrink-0 items-center gap-1.5 rounded-md border border-slate-300 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50"
+          >
+            <Copy className="h-3.5 w-3.5" />
+            {copiado ? "Copiado!" : "Copiar"}
+          </button>
+        </div>
+
+        <div className="mt-4 flex flex-wrap gap-3">
+          {sucesso.whatsappHref && (
+            <a
+              href={sucesso.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700"
+            >
+              <MessageCircle className="h-4 w-4" />
+              Enviar por WhatsApp
+            </a>
+          )}
+          {sucesso.mailtoHref && (
+            <a
+              href={sucesso.mailtoHref}
+              className="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              <Mail className="h-4 w-4" />
+              Enviar por e-mail
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* <a> nativa (não next/link) de propósito: força reload completo pra
+          resetar o estado do useActionState, já que a rota é a mesma. */}
+      <a
+        href="/painel/clientes/novo"
+        className="mt-4 inline-block text-sm font-medium text-telas-blue hover:underline"
+      >
+        Cadastrar outro cliente
+      </a>
+    </div>
   );
 }
 

@@ -70,6 +70,58 @@ export async function cadastroClienteAction(
   redirect("/cliente/plano");
 }
 
+const ativacaoSchema = z.object({
+  token: z.string().min(1),
+  email: z.string().email("E-mail inválido.").optional().or(z.literal("")),
+  senha: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
+});
+
+// Segunda etapa do cadastro feito pela equipe do dono: o cliente chega aqui
+// pelo link de ativação (token único, ver src/lib/ativacao.ts), define a
+// própria senha (e o e-mail, se a equipe não tiver preenchido) e já sai logado.
+export async function ativarContaCliente(
+  _prevState: ClienteAuthState,
+  formData: FormData
+): Promise<ClienteAuthState> {
+  let data;
+  try {
+    data = ativacaoSchema.parse(Object.fromEntries(formData.entries()));
+  } catch {
+    return { error: "Verifique os campos (senha com pelo menos 8 caracteres)." };
+  }
+
+  const cliente = await prisma.cliente.findUnique({ where: { tokenAtivacao: data.token } });
+  if (!cliente) {
+    return { error: "Link inválido ou já usado. Fale com quem te enviou pra gerar um novo." };
+  }
+
+  const email = (data.email || cliente.email || "").trim().toLowerCase();
+  if (!email) {
+    return { error: "Informe seu e-mail — é o que você vai usar pra entrar depois." };
+  }
+
+  if (email !== cliente.email) {
+    const emailEmUso = await prisma.cliente.findUnique({ where: { email } });
+    if (emailEmUso) {
+      return { error: "Já existe uma conta com esse e-mail." };
+    }
+  }
+
+  const senhaHash = await bcrypt.hash(data.senha, 10);
+  await prisma.cliente.update({
+    where: { id: cliente.id },
+    data: { senhaHash, email, tokenAtivacao: null },
+  });
+
+  await createClienteSession({
+    clienteId: cliente.id,
+    email,
+    nome: cliente.nome,
+    empresaId: cliente.empresaId,
+  });
+  redirect("/cliente/plano");
+}
+
 export async function logoutClienteAction() {
   await destroyClienteSession();
   redirect("/login");

@@ -6,6 +6,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { registrarLog } from "@/lib/log";
 import { getSessaoComEmpresa } from "@/lib/auth";
+import { gerarTokenAtivacao, linkAtivacaoCliente, linkWhatsapp } from "@/lib/ativacao";
 
 const clienteSchema = z.object({
   nome: z.string().min(1, "Informe o nome."),
@@ -23,7 +24,15 @@ const clienteSchema = z.object({
   observacoes: z.string().optional(),
 });
 
-export type ClienteState = { error?: string };
+export type ClienteState = {
+  error?: string;
+  sucesso?: {
+    nome: string;
+    linkAtivacao: string;
+    whatsappHref: string | null;
+    mailtoHref: string | null;
+  };
+};
 
 function parseClienteForm(formData: FormData) {
   const raw = Object.fromEntries(formData.entries());
@@ -32,6 +41,10 @@ function parseClienteForm(formData: FormData) {
   return { ...parsed, vendedorId: parsed.vendedorId || null };
 }
 
+// O cliente sai daqui sem senha (só a equipe preencheu os dados). Pra ele
+// conseguir logar depois, gera um link de ativação de uso único (token) e
+// devolve pronto pra equipe mandar por WhatsApp/e-mail -- não existe envio
+// automático ainda, quem dispara é a própria equipe, na hora.
 export async function createCliente(
   _prevState: ClienteState,
   formData: FormData
@@ -45,8 +58,10 @@ export async function createCliente(
     return { error: "Verifique os campos obrigatórios." };
   }
 
+  const tokenAtivacao = gerarTokenAtivacao();
+
   const cliente = await prisma.cliente.create({
-    data: { ...data, empresaId: session.empresaId },
+    data: { ...data, empresaId: session.empresaId, tokenAtivacao },
   });
   await registrarLog({
     acao: "Criou cliente",
@@ -55,7 +70,20 @@ export async function createCliente(
     descricao: `Criou o cliente ${cliente.nome}.`,
   });
   revalidatePath("/painel/clientes");
-  redirect("/painel/clientes");
+
+  const linkAtivacao = linkAtivacaoCliente(tokenAtivacao);
+  const mensagem = `Olá, ${data.nome}! Pra finalizar seu cadastro, definir sua senha e acompanhar sua campanha, acesse: ${linkAtivacao}`;
+
+  return {
+    sucesso: {
+      nome: data.nome,
+      linkAtivacao,
+      whatsappHref: data.telefone ? linkWhatsapp(data.telefone, mensagem) : null,
+      mailtoHref: data.email
+        ? `mailto:${data.email}?subject=${encodeURIComponent("Finalize seu cadastro")}&body=${encodeURIComponent(mensagem)}`
+        : null,
+    },
+  };
 }
 
 export async function updateCliente(

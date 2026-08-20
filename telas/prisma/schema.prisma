@@ -301,6 +301,10 @@ model Cliente {
   cnpjCpf      String?
   email        String?  @unique
   senhaHash    String?
+  // Gerado quando a equipe cadastra o cliente manualmente (venda em campo)
+  // -- link de uso único pra ele definir a própria senha em /cliente/ativar,
+  // sem precisar "casar" por e-mail depois. Zerado assim que é usado.
+  tokenAtivacao String? @unique
   telefone     String?
   endereco     String?
   bairro       String?
