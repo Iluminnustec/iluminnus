@@ -14,7 +14,12 @@ export default async function NovoClientePage() {
   return (
     <div>
       <h1 className="text-2xl font-bold text-slate-900">Novo cliente</h1>
-      <ClienteForm action={createCliente} vendedores={vendedores} submitLabel="Criar cliente" />
+      <ClienteForm
+        action={createCliente}
+        vendedores={vendedores}
+        vendedorTravado={session.cargo === "VENDAS"}
+        submitLabel="Criar cliente"
+      />
     </div>
   );
 }

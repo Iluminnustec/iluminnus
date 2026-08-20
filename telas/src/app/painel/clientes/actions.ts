@@ -58,6 +58,12 @@ export async function createCliente(
     return { error: "Verifique os campos obrigatórios." };
   }
 
+  // Vendedor em campo (cargo VENDAS) sempre fica vinculado a si mesmo --
+  // não escolhe manualmente, evita erro/fraude de atribuir a outro vendedor.
+  if (session.cargo === "VENDAS") {
+    data.vendedorId = session.userId;
+  }
+
   const tokenAtivacao = gerarTokenAtivacao();
 
   const cliente = await prisma.cliente.create({

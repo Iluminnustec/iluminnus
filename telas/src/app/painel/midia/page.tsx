@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { MidiaUploadForm } from "@/components/midia-upload-form";
 import { DeleteButton } from "@/components/delete-button";
 import { TelaCheckboxList } from "@/components/tela-checkbox-list";
+import { RandomizarTelasButton } from "@/components/randomizar-telas-button";
 import { updateMidia, deleteMidia, moverMidia } from "./actions";
 import { getSessaoComEmpresa } from "@/lib/auth";
 
@@ -74,20 +75,10 @@ export default async function MidiaPage() {
                   )}
                 </td>
                 <td className="px-4 py-3 font-medium text-slate-900">{midia.nome}</td>
-                <td className="px-4 py-3">
-                  <select
-                    name="clienteId"
-                    form={`midia-form-${midia.id}`}
-                    defaultValue={midia.clienteId ?? ""}
-                    className="w-36 rounded border border-slate-300 bg-white px-2 py-1 text-xs"
-                  >
-                    <option value="">Nenhum (institucional)</option>
-                    {clientes.map((cliente) => (
-                      <option key={cliente.id} value={cliente.id}>
-                        {cliente.nome}
-                      </option>
-                    ))}
-                  </select>
+                <td className="px-4 py-3 text-slate-600">
+                  {midia.cliente?.nome ?? (
+                    <span className="text-slate-400">Institucional</span>
+                  )}
                 </td>
                 <td className="px-4 py-3">
                   <form
@@ -100,6 +91,7 @@ export default async function MidiaPage() {
                   >
                     <div className="w-56">
                       <TelaCheckboxList
+                        key={midia.telas.map((t) => t.id).sort().join(",")}
                         telas={telas}
                         defaultSelectedIds={midia.telas.map((t) => t.id)}
                         compact
@@ -110,6 +102,7 @@ export default async function MidiaPage() {
                         ? "Nenhuma marcada = institucional (todas)"
                         : `${midia.telas.length} tela(s) marcada(s)`}
                     </p>
+                    {midia.clienteId && <RandomizarTelasButton clienteId={midia.clienteId} />}
                     <div className="flex items-center gap-2">
                       <input
                         type="number"

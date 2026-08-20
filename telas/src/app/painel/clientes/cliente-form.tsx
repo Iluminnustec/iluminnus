@@ -13,6 +13,7 @@ type ClienteFormAction = (
 type ClienteFormProps = {
   action: ClienteFormAction;
   vendedores: { id: string; nome: string }[];
+  vendedorTravado?: boolean;
   defaultValues?: {
     nome?: string;
     razaoSocial?: string | null;
@@ -33,7 +34,13 @@ type ClienteFormProps = {
 
 const initialState: ClienteState = {};
 
-export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: ClienteFormProps) {
+export function ClienteForm({
+  action,
+  vendedores,
+  vendedorTravado,
+  defaultValues,
+  submitLabel,
+}: ClienteFormProps) {
   const [state, formAction, pending] = useActionState(action, initialState);
 
   if (state.sucesso) {
@@ -42,7 +49,7 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
 
   return (
     <form action={formAction} className="mt-6 max-w-2xl space-y-4">
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-4">
         <Field label="Nome *" name="nome" defaultValue={defaultValues?.nome} required />
         <Field
           label="Razão social"
@@ -57,13 +64,13 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
 
       <Field label="Endereço" name="endereco" defaultValue={defaultValues?.endereco ?? ""} />
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
         <Field label="Bairro" name="bairro" defaultValue={defaultValues?.bairro ?? ""} />
         <Field label="Cidade" name="cidade" defaultValue={defaultValues?.cidade ?? "João Pessoa"} />
         <Field label="Estado" name="estado" defaultValue={defaultValues?.estado ?? "PB"} />
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-2 gap-4">
         <div>
           <label htmlFor="planoTelas" className="block text-sm font-medium text-slate-700">
             Pacote contratado (qtd. de telas)
@@ -83,19 +90,25 @@ export function ClienteForm({ action, vendedores, defaultValues, submitLabel }: 
           <label htmlFor="vendedorId" className="block text-sm font-medium text-slate-700">
             Vendedor responsável
           </label>
-          <select
-            id="vendedorId"
-            name="vendedorId"
-            defaultValue={defaultValues?.vendedorId ?? ""}
-            className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
-          >
-            <option value="">Não informado</option>
-            {vendedores.map((v) => (
-              <option key={v.id} value={v.id}>
-                {v.nome}
-              </option>
-            ))}
-          </select>
+          {vendedorTravado ? (
+            <p className="mt-1 rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-600">
+              Você (vinculado automaticamente)
+            </p>
+          ) : (
+            <select
+              id="vendedorId"
+              name="vendedorId"
+              defaultValue={defaultValues?.vendedorId ?? ""}
+              className="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm focus:border-telas-blue focus:outline-none"
+            >
+              <option value="">Não informado</option>
+              {vendedores.map((v) => (
+                <option key={v.id} value={v.id}>
+                  {v.nome}
+                </option>
+              ))}
+            </select>
+          )}
           <p className="mt-1 text-xs text-slate-400">
             Usado pra calcular a comissão da venda em Painel → Comissões.
           </p>

@@ -107,9 +107,13 @@ export async function confirmarMidia(input: unknown): Promise<MidiaState> {
 const updateSchema = z.object({
   duracaoSegundos: z.coerce.number().int().min(1),
   ativo: z.coerce.boolean().optional().default(false),
-  clienteId: z.string().optional(),
 });
 
+// clienteId de propósito NÃO entra aqui -- só é definido na criação
+// (confirmarMidia). Deixar editável depois era a origem de um bug relatado
+// (suspeita do cliente "resetar" ao salvar a edição de telas/duração) e,
+// de qualquer forma, trocar o dono de uma mídia já publicada não é uma
+// operação que deveria ser silenciosa -- exclui e reenvia.
 export async function updateMidia(id: string, formData: FormData) {
   const session = await getSessaoComEmpresa();
 
@@ -131,7 +135,6 @@ export async function updateMidia(id: string, formData: FormData) {
     data: {
       duracaoSegundos: data.duracaoSegundos,
       ativo: data.ativo,
-      clienteId: data.clienteId || null,
       telas: { set: telasValidas.map((t) => ({ id: t.id })) },
     },
   });
@@ -146,6 +149,62 @@ export async function updateMidia(id: string, formData: FormData) {
   });
 
   revalidatePath("/painel/midia");
+}
+
+export type RandomizarState = { error?: string };
+
+// Sorteia N telas (N = Cliente.planoTelas) entre as telas ativas da mesma
+// empresa e aplica o mesmo conjunto em todas as mídias daquele cliente de
+// uma vez -- pra pacote fixo, onde o cliente não escolhe a tela, o sistema
+// sorteia. Escopado por empresaId em toda consulta (cliente, telas ativas,
+// mídias) -- é a adaptação que faltava vindo de um sistema single-tenant.
+export async function randomizarTelasCliente(clienteId: string): Promise<RandomizarState> {
+  const session = await getSessaoComEmpresa();
+  if (!clienteId) return { error: "Selecione um cliente antes de randomizar." };
+
+  const cliente = await prisma.cliente.findUnique({
+    where: { id: clienteId, empresaId: session.empresaId },
+  });
+  if (!cliente) return { error: "Cliente não encontrado." };
+  if (!cliente.planoTelas || cliente.planoTelas <= 0) {
+    return { error: `Defina a quantidade de telas do pacote de "${cliente.nome}" primeiro (em Clientes).` };
+  }
+
+  const telasAtivas = await prisma.tela.findMany({
+    where: { empresaId: session.empresaId, status: "ATIVA" },
+    select: { id: true },
+  });
+  if (telasAtivas.length === 0) {
+    return { error: "Nenhuma tela ativa disponível pra sortear." };
+  }
+
+  const embaralhadas = [...telasAtivas].sort(() => Math.random() - 0.5);
+  const quantidade = Math.min(cliente.planoTelas, embaralhadas.length);
+  const sorteadas = embaralhadas.slice(0, quantidade);
+
+  const midiasDoCliente = await prisma.midia.findMany({
+    where: { clienteId, empresaId: session.empresaId },
+    select: { id: true },
+  });
+
+  await prisma.$transaction(
+    midiasDoCliente.map((midia) =>
+      prisma.midia.update({
+        where: { id: midia.id },
+        data: { telas: { set: sorteadas.map((t) => ({ id: t.id })) } },
+      })
+    )
+  );
+
+  await registrarLog({
+    acao: "Randomizou telas do cliente",
+    entidade: "Cliente",
+    entidadeId: clienteId,
+    descricao: `Sorteou ${quantidade} de ${cliente.planoTelas} tela(s) do pacote para "${cliente.nome}" (${midiasDoCliente.length} mídia(s) atualizada(s)).`,
+  });
+
+  revalidatePath("/painel/midia");
+  return {};
 }
 
 export async function deleteMidia(id: string) {

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getSessaoComEmpresa } from "@/lib/auth";
 import { registrarLog } from "@/lib/log";
+import { gerarCodigoReferral } from "@/lib/referral";
 
 async function exigirAdmin() {
   const session = await getSessaoComEmpresa();
@@ -14,6 +15,15 @@ async function exigirAdmin() {
     throw new Error("Apenas administradores podem gerenciar usuários.");
   }
   return session;
+}
+
+async function gerarCodigoReferralUnico(): Promise<string> {
+  for (let tentativa = 0; tentativa < 5; tentativa++) {
+    const codigo = gerarCodigoReferral();
+    const existente = await prisma.usuario.findUnique({ where: { codigoReferral: codigo } });
+    if (!existente) return codigo;
+  }
+  throw new Error("Não foi possível gerar um código de indicação único.");
 }
 
 const usuarioSchema = z.object({
@@ -49,6 +59,7 @@ export async function createUsuario(
   }
 
   const senhaHash = await bcrypt.hash(data.senha, 10);
+  const codigoReferral = await gerarCodigoReferralUnico();
   const novo = await prisma.usuario.create({
     data: {
       nome: data.nome,
@@ -56,6 +67,7 @@ export async function createUsuario(
       cargo: data.cargo,
       senhaHash,
       empresaId: session.empresaId,
+      codigoReferral,
     },
   });
 

@@ -35,6 +35,7 @@ export default async function UsuariosPage() {
               <th className="px-4 py-3">Nome</th>
               <th className="px-4 py-3">E-mail</th>
               <th className="px-4 py-3">Cargo</th>
+              <th className="px-4 py-3">Código de indicação</th>
               <th className="px-4 py-3">Status</th>
             </tr>
           </thead>
@@ -52,6 +53,9 @@ export default async function UsuariosPage() {
                 </td>
                 <td className="px-4 py-3 text-slate-600">{usuario.email}</td>
                 <td className="px-4 py-3 text-slate-600">{CARGO_LABELS[usuario.cargo]}</td>
+                <td className="px-4 py-3 font-mono text-xs text-slate-500">
+                  {usuario.codigoReferral ?? "—"}
+                </td>
                 <td className="px-4 py-3">
                   <span
                     className={`rounded-full px-2 py-1 text-xs font-medium ${

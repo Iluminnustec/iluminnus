@@ -17,6 +17,7 @@ const cadastroSchema = z.object({
   telefone: z.string().optional(),
   cidade: z.string().optional(),
   senha: z.string().min(8, "A senha precisa ter pelo menos 8 caracteres."),
+  ref: z.string().optional(),
 });
 
 export async function cadastroClienteAction(
@@ -50,10 +51,26 @@ export async function cadastroClienteAction(
 
   const senhaHash = await bcrypt.hash(data.senha, 10);
 
+  // Código de indicação (?ref=...) vincula o cliente automaticamente ao
+  // vendedor dono do código -- só se o vendedor for da MESMA empresa que
+  // este cadastro está resolvendo (empresa vem do domínio da visita); um
+  // código de outro dono é silenciosamente ignorado, nunca vaza vínculo
+  // entre tenants diferentes.
+  let vendedorId: string | undefined;
+  if (data.ref) {
+    const vendedor = await prisma.usuario.findUnique({
+      where: { codigoReferral: data.ref.toUpperCase() },
+      select: { id: true, empresaId: true },
+    });
+    if (vendedor && vendedor.empresaId === empresa.id) {
+      vendedorId = vendedor.id;
+    }
+  }
+
   const cliente = existente
     ? await prisma.cliente.update({
         where: { id: existente.id },
-        data: { senhaHash },
+        data: { senhaHash, ...(vendedorId ? { vendedorId } : {}) },
       })
     : await prisma.cliente.create({
         data: {
@@ -63,6 +80,7 @@ export async function cadastroClienteAction(
           cidade: data.cidade || null,
           senhaHash,
           empresaId: empresa.id,
+          vendedorId,
         },
       });
 

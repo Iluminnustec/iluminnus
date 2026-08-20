@@ -3,13 +3,32 @@ import { prisma } from "@/lib/prisma";
 import { EditIcon } from "@/components/edit-icon";
 import { toggleClienteAtivo } from "./actions";
 import { getSessaoComEmpresa } from "@/lib/auth";
+import { ReferralLinkBanner } from "@/components/referral-link-banner";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://admin.iluminnus.com.br";
 
 export default async function ClientesPage() {
   const session = await getSessaoComEmpresa();
-  const clientes = await prisma.cliente.findMany({
-    where: { empresaId: session.empresaId },
-    orderBy: { nome: "asc" },
-  });
+  const [clientes, usuario, empresa] = await Promise.all([
+    prisma.cliente.findMany({
+      where: { empresaId: session.empresaId },
+      orderBy: { nome: "asc" },
+      include: { vendedor: { select: { nome: true } } },
+    }),
+    prisma.usuario.findUnique({
+      where: { id: session.userId },
+      select: { codigoReferral: true },
+    }),
+    prisma.empresa.findUnique({
+      where: { id: session.empresaId },
+      select: { dominio: true },
+    }),
+  ]);
+
+  const baseUrl = empresa?.dominio ? `https://${empresa.dominio}` : SITE_URL;
+  const linkReferral = usuario?.codigoReferral
+    ? `${baseUrl}/cliente/cadastro?ref=${usuario.codigoReferral}`
+    : null;
 
   return (
     <div>
@@ -28,6 +47,8 @@ export default async function ClientesPage() {
         </Link>
       </div>
 
+      {linkReferral && <ReferralLinkBanner link={linkReferral} />}
+
       <div className="mt-6 overflow-x-auto rounded-lg border border-slate-200 bg-white">
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead className="bg-slate-50 text-xs uppercase text-slate-500">
@@ -36,6 +57,7 @@ export default async function ClientesPage() {
               <th className="px-4 py-3">Contato</th>
               <th className="px-4 py-3">Cidade</th>
               <th className="px-4 py-3">Pacote</th>
+              <th className="px-4 py-3">Vendedor</th>
               <th className="px-4 py-3">Status</th>
               <th className="px-4 py-3" />
             </tr>
@@ -59,6 +81,7 @@ export default async function ClientesPage() {
                 <td className="px-4 py-3 text-slate-600">
                   {cliente.planoTelas ? `${cliente.planoTelas} telas` : "—"}
                 </td>
+                <td className="px-4 py-3 text-slate-600">{cliente.vendedor?.nome ?? "—"}</td>
                 <td className="px-4 py-3">
                   <span
                     className={`rounded-full px-2 py-1 text-xs font-medium ${
@@ -86,7 +109,7 @@ export default async function ClientesPage() {
             ))}
             {clientes.length === 0 && (
               <tr>
-                <td colSpan={6} className="px-4 py-10 text-center text-slate-400">
+                <td colSpan={7} className="px-4 py-10 text-center text-slate-400">
                   Nenhum cliente cadastrado ainda.
                 </td>
               </tr>

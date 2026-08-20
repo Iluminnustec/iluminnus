@@ -263,6 +263,11 @@ model Usuario {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
+  // Código curto (6 chars, gerado na criação) pro link de indicação de
+  // cliente (/cliente/cadastro?ref=codigo) -- quem se cadastra por esse
+  // link já nasce vinculado a este usuário como vendedor.
+  codigoReferral String? @unique
+
   // null = staff da propria Iluminnus (cargo SUPER_ADMIN), nao pertence a
   // nenhum dono.
   empresaId    String?
